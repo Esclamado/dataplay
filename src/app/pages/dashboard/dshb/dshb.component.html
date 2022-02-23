@@ -1,0 +1,127 @@
+<div class="overflow-x-auto custom-scroll h-full">
+    <div class="mx-auto p-12 w-table">
+        <div class="grid grid-cols-12 grid-flow-row gap-4 barlow w-full default-text-color">
+            <div class="col-span-12 fs-32-px barlow-condensed-bold">
+                HELLO, ADMIN!
+            </div>
+            <div class="col-span-12 text-base pb-8">
+                These are the things that needs your attention.
+            </div>
+        </div>
+        
+        <div class="grid grid-cols-12 grid-flow-row gap-5 barlow w-full pb-10">
+            <div class="col-span-3" *ngFor="let item of cards">
+                <app-dshb-card [itemCard] = "item" [requesting]="requesting"></app-dshb-card>
+            </div>
+        </div>
+        
+        <!--------------------- MOST VIEWED ATHLETES -------------------------->
+        <div class="bg-white rounded-lg shadow-bottom barlow w-full default-text-color">
+            <div class="flex items-center justify-between border-b border-gray-200 h-75-px">
+                <span class="text-xl barlow-bold mx-8 my-3">Top 10 viewed athletes</span>
+                <div class="border border-gray-400 rounded-md w-260-px h-50-px mx-8 my-3 text-base flex items-center">
+                   <span class="text-base text-gray-500 pl-5 pr-3 barlow-bold">Month:</span>
+                    <input readonly [matDatepicker]="dp" [max]="today" (focus)="dp.open();" (click)="dp.open();" [formControl]="date" 
+                        class="default-text-color cursor-pointer focus:outline-none" style="font-weight: 600; width: 132px;">
+                        <mat-datepicker-toggle matSuffix [for]="dp">
+                            <!-- <mat-icon matDatepickerToggleIcon>keyboard_arrow_down</mat-icon> -->
+                            <svg matDatepickerToggleIcon width="10" height="6" viewBox="0 0 10 6" fill="none" xmlns="http://www.w3.org/2000/svg"
+                               style="margin-left: 14px;">
+                                <path d="M0 0.5L5 5.5L10 0.5H0Z" fill="#7E868F"/>
+                            </svg>
+                                
+                        </mat-datepicker-toggle>
+                        <mat-datepicker #dp
+                            startView="multi-year"
+                            (yearSelected)="chosenYearHandler($event)"
+                            (monthSelected)="chosenMonthHandler($event, dp)"
+                            panelClass="example-month-picker">
+                        </mat-datepicker>
+                </div>
+            </div>
+            <div class="pb-8 px-8 pt-5">
+                <table class="w-full">
+                    <tr class="text-sm first" style="font-weight: 600;">
+                      <th class="pb-5 text-left w-4/12">Name</th>
+                      <th class="pb-5 text-left w-3/12 px-1">Sports</th>
+                      <th class="pb-5 text-left w-3/12 px-1">Locations</th>
+                      <th class="pb-5 text-left w-2/12 px-1">No. of Views</th>
+                    </tr>
+                    <!--------------------- LISTING: MOST ATHLETES -------------------------->
+                    <ng-container *ngIf="!requestingTop10 && top10List">
+                        <ng-container *ngFor="let item of top10List">
+                            <tr class="cursor-pointer focus:outline-none text-base" [routerLink]="['/admin/athletes/', item.user_profile_id]" > 
+                                <td>
+                                    <div class="inline-flex items-center cursor-pointer focus:outline-none">
+                                        <!-- <img src="{{item.profile_pic_path ? item.profile_pic_path : '/assets/images/default_avatar.png' }}" alt="" class="w-40-px h-40-px rounded-full mr-4"> -->
+                                        <div *ngIf="item.profile_pic_path" class="w-40-px h-40-px rounded-full mr-4 square-div" 
+                                            [defaultImage]="lazyImage_url" 
+                                            [lazyLoad]="item.profile_pic_path" >
+                                        </div>
+                                        <img class="w-40-px h-40-px rounded-full mr-4" *ngIf="!item.profile_pic_path" src="/assets/images/default_avatar.png">
+                                        <div class="flex-column text-darkblue">
+                                            <div class="barlow-bold text-base flex items-center">
+                                                {{ (item.full_name | titlecase)}} 
+                                                <div class="verified-badge" *ngIf="item.verified == 1"></div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </td>
+                                <td class="py-6 sport px-1">{{ item.main_sport }} </td>
+                                <td class="py-6 loc px-1">{{ item.location | titlecase }}</td>
+                                <td class="py-6 last px-1"> {{convert(item.number_of_views)}}</td>
+                            </tr>
+                        </ng-container>
+                    </ng-container>
+                    <!--------------------- LOADER: MOST ATHLETES -------------------------->
+                    <ng-container *ngIf="requestingTop10">
+                        <ng-container *ngFor="let item of [1,2,3,4,5,6,7,8,9,10]">
+                            <tr> 
+                                <td>
+                                    <div class="w-full-px h-40-px my-3">
+                                        <app-loader [border_radius_class]="'rounded-lg'" [additional_class]=""></app-loader>
+                                    </div>
+                                </td>
+                                <td> 
+                                    <div class="w-full-px h-40-px my-3 pr-3">
+                                        <app-loader [border_radius_class]="'rounded-lg'" [additional_class]=""></app-loader>
+                                    </div>
+                                </td>
+                                <td> 
+                                    <div class="w-full-px h-40-px my-3 pr-3">
+                                        <app-loader [border_radius_class]="'rounded-lg'" [additional_class]=""></app-loader>
+                                    </div>
+                                </td>
+                                <td> 
+                                    <div class="w-full h-40-px my-3 pr-3">
+                                        <app-loader [border_radius_class]="'rounded-lg'" [additional_class]=""></app-loader>
+                                    </div>
+                                </td>
+                            </tr>
+                        </ng-container>
+                    </ng-container>
+                    <!--------------------- NO DATA: MOST ATHLETES -------------------------->
+                    <ng-container *ngIf="!requestingTop10 && top10List &&!top10List.length">
+                        <tr>
+                            <td colspan="4"> 
+                                <div class="flex justify-center w-full-px h-40-px my-3 pr-3" >
+                                    No Results Found.
+                                </div>
+                            </td>
+                        </tr>
+                    </ng-container>
+                  </table>
+            </div>
+        </div>
+        
+        <!--------------------- MOST ATHLETES -------------------------->
+        <div class="grid grid-cols-12 grid-flow-row gap-10 barlow w-full pt-10">
+            <div class="col-span-6">
+                <app-dshb-most-athletes [sports] = "sportsList" [requestingSports]="requestingSports"></app-dshb-most-athletes>
+            </div>
+            <div class="col-span-6">
+                <app-dshb-most-athletes [province] = "provinceList" [requestingProvince]="requestingProvince"></app-dshb-most-athletes>
+            </div>
+        </div>
+    </div>
+</div>

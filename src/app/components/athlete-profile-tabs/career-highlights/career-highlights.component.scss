@@ -1,0 +1,9 @@
+::ng-deep{
+    .sports-menu{
+        &.mat-menu-panel {
+            max-width: none !important;
+            max-height: 300px !important;
+            padding-right: 0px;
+        }
+    }
+}

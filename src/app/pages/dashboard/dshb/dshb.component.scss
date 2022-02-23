@@ -1,0 +1,40 @@
+table { border-collapse: collapse; }
+td { 
+    border: none; 
+}
+tr {
+  border-bottom: solid 1px #E0E1E1 ;
+}
+tr:first-child{
+    border-bottom: solid 3px #E0E1E1 
+}
+tr:last-child{
+    border-bottom: none;
+}
+
+.verified-badge{
+    margin-left: 4px;
+    display: inline;
+    background: url('/assets/images/verified-badge.png');
+    background-position: center;
+    background-size: cover;
+    background-repeat: no-repeat;
+    width: 18px;
+    height: 18px;
+}
+
+.border-b {
+    border-bottom-width: 4px !important;
+}
+
+::ng-deep{
+    .mat-calendar-period-button{
+        outline: none !important;
+    }
+    .mat-calendar-arrow{
+        // display: none !important;
+    }
+    .mat-calendar-period-button {
+        // pointer-events: none !important;
+    }
+}

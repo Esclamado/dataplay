@@ -1,0 +1,35 @@
+::ng-deep{
+    .confirm .nsm-content{
+        background: transparent !important;
+        box-shadow: none !important;
+        padding: 6px;
+    }
+    .confirm .nsm-dialog-btn-close{
+        border: 0;
+        // background: transparent !important;
+        position: absolute;
+        top: 27px !important;
+        right: 20px !important;
+        cursor: pointer;
+        padding: 7px;
+        border-radius: 50%;
+        &:hover,&:focus{
+            background: #e6e6e6;
+            outline: none;
+        }
+        svg{
+            width: 10px !important;
+            height: 10px !important;
+        }
+    }
+    .white-loader.mat-progress-spinner circle{
+        stroke: white !important;
+    }
+}
+.pad-24{
+    padding: 32px 39px !important;
+}
+
+.btn-h{
+    height: 44px !important;
+}

@@ -1,0 +1,37 @@
+<div class="overflow-x-auto custom-scroll h-full">
+    <div class="p-12 w-table">
+        <div class="mx-auto mb-12">
+            <div class="grid grid-cols-10">
+                <div class="col-span-10">
+                    <div class="fs-32-px barlow-condensed-bold default-text-color mb-5">VIOLATION REPORT</div>
+                </div>
+            </div>
+        </div>
+        <div class="inline-flex">
+            <div class="px-5 flex items-center bg-white w-full rounded-tl-lg barlow text-base cursor-pointer relative hov-bold border-b border-gray-400" (click)="chooseTab(1)">
+                <div class=" flex flex-col justify-center">
+                    <span class="tab-hov mt-4 mb-3" [ngClass]="{'orange-tab': tab == 1, 'barlow-bold': tab == 1}">Reported post </span> 
+                    <div class="content-end mt-2 line-below w-full h-4-px rounded-l-full rounded-r-full {{ tab == 1 ? 'visible' : 'invisible' }}" ></div>
+                </div>
+                <span class="ml-3 red-badge">{{ pending_post ? pending_post : '0' }}</span>
+            </div>
+            <div class="px-5 flex items-center rounded-tr-lg bg-white w-full barlow text-base cursor-pointer relative border-b border-gray-400 hov-bold "  (click)="chooseTab(2)">
+                <div class="flex flex-col justify-center">
+                    <span class="mt-4 mb-3 tab-hov w-150-px" [ngClass]="{'barlow-bold': tab == 2}">Reported comments</span>
+                    <div class="mt-2 line-below w-full h-4-px rounded-l-full rounded-r-full {{ tab == 2 ? 'visible' : 'invisible' }}" ></div>
+                </div>
+                <span class="ml-3 red-badge">{{ pending ? pending : '0' }}</span>
+            </div>
+        </div>
+        <!-- <div ></div> -->
+        <!-- <div [ngClass]="{'orange-tab': tab == 2}"></div> -->
+        <div>
+            <ng-container *ngIf="tab == 1">
+                <app-post></app-post>
+            </ng-container>
+            <ng-container *ngIf="tab == 2">
+                <app-comment></app-comment>
+            </ng-container>
+        </div>
+    </div>
+</div>

@@ -1,0 +1,21 @@
+<div (click)="action($event)"
+    class="flex flex-col bg-green-500 hover:bg-green-600 border-l-4 border-green-700 p-3 shadow-md hover:shadow-lg pointer-events-auto  mb-2 w-350-px">
+    <!-- icons -->
+    <div class="flex items-center">
+        <div class="rounded-full bg-white mr-3 p-1">
+
+
+            <img src="../../../../assets/images/logo/DataPlay-Logo-sqaure.png" width="35px" alt="">
+
+
+        </div>
+        <!-- message -->
+        <div *ngIf="message && !options.enableHtml" [class]="options.messageClass" class="text-white barlow ">
+            <div class="block barlow-bold">{{ title }}</div>
+            {{ message }}
+        </div>
+    </div>
+    <div *ngIf="options.progressBar">
+        <div class="toast-progress" [style.width]="width + '%'"></div>
+    </div>
+</div>

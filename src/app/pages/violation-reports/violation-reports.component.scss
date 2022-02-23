@@ -1,0 +1,22 @@
+.search-icon{
+    float: right;
+    position: relative;
+    top: 15px;
+    right: 40px;
+}
+.line-below{
+    background: linear-gradient(76.66deg, #EF4136 0.03%, #FAB423 99.91%);
+    border-radius: 19px;
+}
+.r-absolute{
+    left: 19px;
+    width: 146px !important;
+}
+.hov-bold{
+    &:hover .tab-hov{
+        font-family: Barlow-Bold, Roboto;
+    }
+}
+.trans-t{
+    // transform: translateX(18px);
+}

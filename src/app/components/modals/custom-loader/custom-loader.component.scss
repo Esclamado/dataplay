@@ -1,0 +1,33 @@
+::ng-deep{
+    .outer-loader.mat-progress-spouter circle, .outer-loader.mat-spinner circle {
+        stroke: #EE2A7B !important;
+    }
+    .inner-loader.mat-progress-spinner circle, .inner-loader.mat-spinner circle {
+        stroke: white !important;
+    }
+    
+    .inner-most-loader.mat-progress-spouter circle, .inner-most-loader.mat-spinner circle {
+        stroke: #EF4136 !important;
+    }
+    .inner-loader.mat-progress-spinner,.inner-most-loader.mat-progress-spinner  {
+        position: absolute !important;
+    }
+    .loader-container{
+        -webkit-transform: scaleX(-1);
+        transform: scaleX(-1);
+    }
+    .nsm-content{
+        margin: 0px !important;
+    }
+    .custom-modal-class{
+        display:flex;
+        align-items: center;
+        justify-content: center;
+        height: 100%;
+    }
+    .nsm-content,.nsm-body{
+        background: transparent;
+        box-shadow: none;
+        height: 100%;
+    }
+}

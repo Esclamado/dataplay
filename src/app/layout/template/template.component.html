@@ -1,0 +1,13 @@
+<div class="flex flex-row h-full w-full overflow-hidden">
+    <div class="h-full transition duration-500 ease-in-out sidenav z-20" [ngClass]="{ 'expanded': expanded }">
+        <app-sidenav></app-sidenav>
+    </div>
+    <div class="flex flex-col max-w-full template" [ngClass]="{ 'exp': expanded }">
+        <app-header></app-header>
+        <div class="default-bg-color overflow-y-auto overflow-x-hidden main-content w-full">
+            <router-outlet></router-outlet>
+        </div>
+    </div>
+</div>
+
+

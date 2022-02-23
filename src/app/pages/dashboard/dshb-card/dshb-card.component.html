@@ -1,0 +1,29 @@
+<div class="barlow w-full" *ngIf="!requesting">
+    <div class="bg-white grid grid-rows-4 rounded-lg shadow-bottom h-205-px w-full text-base">
+        <div class="row-span-3 gap-1 p-6">
+            <div class="mb-5" style="min-height:40px">
+                <span class="barlow" style="color:#7E868F;">{{ itemCard.content }}</span>
+            </div>
+            <div class="flex items-center justify-between" >
+                <span class="barlow-bold text-4xl">{{ itemCard.count }}</span>
+                <img [src]="itemCard.svg"> 
+            </div>
+        </div>
+        <div class="row-span-1 p-6 flex items-center justify-between border-t border-gray-200 bg-color">
+            <span class="flex items-center cursor-pointer icon-hover focus:outline-none icon-hover" (click)="route(itemCard.title)">
+                <span class="mr-3 pr-1 span-color text-teal-700" style="font-weight: 600;">View all {{ itemCard.title }}</span>
+                <svg width="14" height="14" viewBox="0 0 14 14" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M6.99999 0.333313L5.82499 1.50831L10.475 6.16665H0.333328V7.83331H10.475L5.82499 12.4916L6.99999 13.6666L13.6667 6.99998L6.99999 0.333313Z" fill="#228891"/>
+                </svg>
+            </span>
+        </div>
+    </div>
+ </div>
+
+<ng-container *ngIf="requesting">
+    <div class="w-full h-185-px">
+        <app-loader [border_radius_class]="'rounded-lg'"></app-loader>
+    </div>
+</ng-container>
+
+ 

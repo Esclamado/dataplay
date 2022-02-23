@@ -1,0 +1,63 @@
+.btn-back{
+    border: 2px solid #525A65;
+    border-radius: 4px;
+    background-color: transparent;
+    color: #525A65;
+    &:hover{
+        i, svg path, span{
+            fill:white!important;
+            color:white!important;
+        }
+        border: 2px solid white;
+        color: white !important;
+        background: gray
+    }
+}
+
+.border-top{
+    border-top-left-radius: 10px !important;
+    border-top-right-radius: 10px !important;
+}
+
+.border-bot{
+    border-bottom-left-radius: 10px !important;
+    border-bottom-right-radius: 10px !important;
+}
+
+.text-color{
+    color: #505664;
+}
+
+:host ::ng-deep .ck-editor__editable_inline {
+    min-height: 380px;
+    max-height: 380px;
+}
+
+.wrap { 
+    white-space: pre-wrap;      /* CSS3 */   
+    white-space: -moz-pre-wrap; /* Firefox */    
+    white-space: -pre-wrap;     /* Opera <7 */   
+    white-space: -o-pre-wrap;   /* Opera 7 */    
+    word-wrap: break-word;      /* IE */
+}
+
+#cke_description {
+    width: auto !important;
+}
+
+.cancel{
+    color: #505664;
+    &:hover{
+        color: teal;
+    }
+}
+
+.pad-1366{
+    padding-right: 40px !important;
+}
+
+.pad-1440{
+    padding-right: 45px !important;
+}
+
+

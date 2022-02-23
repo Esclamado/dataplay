@@ -1,0 +1,417 @@
+<div class="overflow-x-auto custom-scroll h-full">
+    <div class="mx-auto w-table p-12">
+        <span
+            class="whitespace-no-wrap custom-btn items-center border-2 hover:bg-gray-400 border-gray-700 px-5 py-2 w-100-px mb-5 cursor-pointer"
+            [routerLink]="['/admin/violation-reports']" routerLinkActive="router-link-active">
+            <svg class="mr-2" width="12" height="12" viewBox="0 0 12 12" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <path
+                    d="M11.3337 5.33335H3.22033L6.94699 1.60669L6.00033 0.666687L0.666992 6.00002L6.00033 11.3334L6.94033 10.3934L3.22033 6.66669H11.3337V5.33335Z"
+                    fill="#525A65" />
+            </svg>
+            <span class="text-base text-gray-700">Back</span>
+        </span>
+        <div class="barlow text-base">
+            <ng-container *ngIf="report_detail && !main_is_loading">
+                <div class="w-full" *ngIf="report_detail && report_detail.report_status == 0">
+                    <!-- pending -->
+                    <div class="bg bg-pending flex items-center barlow-bold">
+                        <svg class="ml-6 mr-3 my-4 " width="20" height="20" viewBox="0 0 20 20" fill="none"
+                            xmlns="http://www.w3.org/2000/svg">
+                            <path fill-rule="evenodd" clip-rule="evenodd"
+                                d="M9.99 0C4.47 0 0 4.48 0 10C0 15.52 4.47 20 9.99 20C15.52 20 20 15.52 20 10C20 4.48 15.52 0 9.99 0ZM11 11V5H9V11H11ZM11 15V13H9V15H11ZM2 10C2 14.42 5.58 18 10 18C14.42 18 18 14.42 18 10C18 5.58 14.42 2 10 2C5.58 2 2 5.58 2 10Z"
+                                fill="#525A65" />
+                        </svg>
+                        This {{ api_type == 1 ? 'post' : 'comment' }} has been reported
+                    </div>
+                </div>
+                <div class="w-full" *ngIf="report_detail && report_detail.report_status == 3"><!-- deleted by user-->
+                    <div class="bg bg-deleted flex items-center">
+                        <svg class="ml-6 mr-3 my-4" width="14" height="18" viewBox="0 0 14 18" fill="none" xmlns="http://www.w3.org/2000/svg">
+                            <path fill-rule="evenodd" clip-rule="evenodd" d="M9.5 0H4.5L3.5 1H0V3H14V1H10.5L9.5 0ZM11 6V16H3V6H11ZM1 4H13V16C13 17.1 12.1 18 11 18H3C1.9 18 1 17.1 1 16V4Z" fill="#BE1E2D"/>
+                        </svg>
+                        <span class="text-base">This {{ api_type == 1 ? 'post' : 'comment' }} has been deleted by user</span> 
+                    </div>
+                </div>
+                <div class="w-full" *ngIf="report_detail && (!report_detail.admin && report_detail.report_status == 2 && report_detail.report_type == 2)"><!-- deleted by user-->
+                    <div class="bg bg-deleted flex items-center">
+                        <svg class="ml-6 mr-3 my-4" width="14" height="18" viewBox="0 0 14 18" fill="none" xmlns="http://www.w3.org/2000/svg">
+                            <path fill-rule="evenodd" clip-rule="evenodd" d="M9.5 0H4.5L3.5 1H0V3H14V1H10.5L9.5 0ZM11 6V16H3V6H11ZM1 4H13V16C13 17.1 12.1 18 11 18H3C1.9 18 1 17.1 1 16V4Z" fill="#BE1E2D"/>
+                        </svg>
+                        <span class="text-base">This Comment has been deleted &nbsp;<span class="barlow-bold">Reason: Original post has been deleted</span></span> 
+                    </div>
+                </div>
+                <ng-container *ngIf="report_detail.admin">
+                    <div class="w-full" *ngIf="report_detail && report_detail.report_status == 1"><!-- checked -->
+                        <div class="bg bg-checked flex items-center">
+                            <svg class="ml-6 mr-3 my-4" width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                <path fill-rule="evenodd" clip-rule="evenodd" d="M10 0C4.48 0 0 4.48 0 10C0 15.52 4.48 20 10 20C15.52 20 20 15.52 20 10C20 4.48 15.52 0 10 0ZM10 18C5.59 18 2 14.41 2 10C2 5.59 5.59 2 10 2C14.41 2 18 5.59 18 10C18 14.41 14.41 18 10 18ZM8 12.17L14.59 5.58L16 7L8 15L4 11L5.41 9.59L8 12.17Z" fill="#32A41A"/>
+                            </svg>
+                            <span class="text-base barlow-bold">This {{ api_type == 1 ? 'post' : 'comment' }} has been reported by users and checked by</span> 
+                            <img [src]="report_detail.admin.profile_pic_path ? report_detail.admin.profile_pic_path : '/assets/images/default_avatar.png'" class="w-32-px h-32-px rounded-full mx-3">
+                            <span class="barlow-bold text-base default-text-color">{{report_detail.admin.first_name}} {{report_detail.admin.last_name}} &nbsp;</span>
+                            <span class="default-text-color text-base barlow">at {{ report_detail.admin.created_at | transformDate: '': 'MMMM DD, yyyy - h:mm A'}}</span>
+                        </div>
+                    </div>
+                    <div class="w-full" *ngIf="report_detail && (report_detail.report_status == 2 ||report_detail.report_status == 4)"><!-- deleted by admin-->
+                        <div class="bg bg-deleted flex items-center">
+                            <svg class="ml-6 mr-3 my-4" width="14" height="18" viewBox="0 0 14 18" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                <path fill-rule="evenodd" clip-rule="evenodd" d="M9.5 0H4.5L3.5 1H0V3H14V1H10.5L9.5 0ZM11 6V16H3V6H11ZM1 4H13V16C13 17.1 12.1 18 11 18H3C1.9 18 1 17.1 1 16V4Z" fill="#BE1E2D"/>
+                            </svg>
+                            <span class="text-base">This {{ api_type == 1 ? 'post' : 'comment' }} has been deleted by </span> 
+                            <img [src]="report_detail.admin.profile_pic_path ? report_detail.admin.profile_pic_path : '/assets/images/default_avatar.png'" class="w-32-px h-32-px rounded-full mx-3">
+                            <span class="barlow-bold text-base default-text-color">{{ report_detail.admin.first_name }} {{report_detail.admin.last_name}} &nbsp;</span>
+                            <span class="default-text-color text-base barlow">at {{ report_detail.admin.created_at | transformDate: '': 'MMMM DD, yyyy - h:mm A'}}</span>
+
+                            <span class="default-text-color text-base barlow">&nbsp; and flagged as <span class="default-text-color text-base barlow-bold">{{ report_detail.reason }}</span></span>
+                        </div>
+                    </div>
+                </ng-container>
+                <div class="p-5 grid grid-cols-12 bg-white gap-4">
+                    <!-- head -->
+                    <div class="col-span-7">
+                        <div class="flex items-center">
+                            <img [src]="report_detail.profile_pic_path ? report_detail.profile_pic_path : '/assets/images/default_avatar.png'"
+                                class="w-50-px h-50-px rounded-full mr-3 inline-block" alt="">
+                            <div class="inline-block">
+                                <div class="inline-block barlow-bold default-text-color text-base">{{
+                                    report_detail.first_name }} {{report_detail.last_name }}</div>
+                                <svg *ngIf="report_detail.verification_status == 1" class="inline-block mb-1 ml-2"
+                                    width="18" height="18" viewBox="0 0 18 18" fill="none"
+                                    xmlns="http://www.w3.org/2000/svg">
+                                    <path
+                                        d="M9 18C13.9706 18 18 13.9706 18 9C18 4.02944 13.9706 0 9 0C4.02944 0 0 4.02944 0 9C0 13.9706 4.02944 18 9 18Z"
+                                        fill="white" />
+                                    <path
+                                        d="M9 16.5C13.1421 16.5 16.5 13.1421 16.5 9C16.5 4.85786 13.1421 1.5 9 1.5C4.85786 1.5 1.5 4.85786 1.5 9C1.5 13.1421 4.85786 16.5 9 16.5Z"
+                                        fill="#2CAEBA" />
+                                    <path
+                                        d="M9.14928 10.9259C9.44717 11.2238 9.44717 11.7345 9.14928 12.0324L8.53221 12.6494C8.23432 12.9473 7.72364 12.9473 7.42575 12.6494L4.72342 9.92583C4.42553 9.62794 4.42553 9.11726 4.72342 8.81937L5.34049 8.2023C5.63838 7.90441 6.14906 7.90441 6.44695 8.2023L9.14928 10.9259Z"
+                                        fill="white" />
+                                    <path
+                                        d="M11.5111 6.22342C11.8089 5.92553 12.3196 5.92553 12.6175 6.22342L13.2346 6.84049C13.5325 7.13838 13.5325 7.64905 13.2346 7.94695L8.55339 12.6069C8.2555 12.9048 7.74482 12.9048 7.44693 12.6069L6.82987 11.9898C6.53197 11.6919 6.53197 11.1812 6.82987 10.8833L11.5111 6.22342Z"
+                                        fill="white" />
+                                </svg>
+                                <div class="text-gray-700 block">{{ report_detail.created_at | transformDate: '': 'MMMM DD, yyyy hh:mm a' }}</div>
+                            </div>
+                        </div>
+                        <div class="my-3 text-base">
+                            <!-- content -->
+                            <!-- {{ report_detail.post_content }} -->
+                            <p #postcontainer (click)="checkClick($event);" class="barlow text-lg pb-1 overflow-ellipsis overflow-hidden " *ngIf="report_detail.post_content"
+                            [innerHtml]="allowNewLine(report_detail.post_content)"></p>
+                        </div>
+                        <!-- post img -->
+                        <div *ngIf="report_detail.post_image && report_detail.post_image.length > 0"
+                            class="grid {{ report_detail.post_image.length < 4 ? 'grid-cols-' + report_detail.post_image.length : 'grid-cols-3' }} grid-rows-1 grid-flow-row gap-4 mt-4">
+    
+                            <div class="w-full flex" *ngFor="let img of report_detail.post_image | slice:0:3; let i = index">
+                                <div class="w-full square-div cursor-pointer"  [defaultImage]="lazyImage_url" 
+                                [lazyLoad]="img.image_path" (click)="viewPhoto(report_detail.post_image,i)">
+                                </div>
+                                <div *ngIf="report_detail.post_image.length > 3 && i == 2"
+                                    class="w-full flex items-center justify-center flex-grow z-10 text-white text-2xl barlow-bold pointer-events-none"
+                                    style="margin-left: -100%;background-color: rgba(0, 0, 0, 0.8);">
+                                    +{{ report_detail.post_image.length - 2 }} PHOTOS
+                                </div>
+                            </div>
+                            
+    
+                            <!-- <div class="w-full flex" *ngFor="let img of report_detail.post_image | slice:0:3; let i = index">
+                                <div class="w-full square-div cursor-pointer" [ngStyle]="{'background-image': 'url(' + img.image_path + ')'}" (click)="viewPhoto(report_detail.post_image,i)">
+                                </div>
+                                <div *ngIf="report_detail.post_image.length > 3 && i == 2"
+                                    class="w-full flex items-center justify-center flex-grow z-10 text-white text-2xl barlow-bold pointer-events-none"
+                                    style="margin-left: -100%;background-color: rgba(0, 0, 0, 0.8);">
+                                    +{{ report_detail.post_image.length - 2 }} PHOTOS
+                                </div>
+                            </div> -->
+    
+                        </div>
+                        <!-- <iframe width="100%" height="272px" [src]="sanitizeUrl(content_link.url)" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe> -->
+                        <ng-container *ngIf="html">
+                            <div [innerHtml]="html"></div>
+                        </ng-container>
+                        <div class="mt-3" *ngIf="metadata && metadata['result'].status != 'ERROR' && !meta_loading">
+                            <mat-card (click)="viewLink(blog_url.url)" class="cursor-pointer hover:bg-gray-200"> 
+                                <app-link-preview [metadata]="metadata"></app-link-preview>
+                            </mat-card>
+                        </div>
+    
+                        <ng-container *ngIf="meta_loading">
+                            <div class="grid grid-cols-5 grid-rows-2 gap-4" *ngFor="let item of [1]">
+                                <div class="col-span-2 row-span-2">
+                                        <app-loader [border_radius_class]="'rounded-lg'" [additional_class]=""></app-loader>
+                                </div>
+                                <div class="col-span-3 row-span-2 flex flex-col space-y-2 default-text-color barlow text-sm">
+                                    <span class="w-90-px h-5">
+                                        <app-loader [border_radius_class]="'rounded-lg'" [additional_class]=""></app-loader>
+                                    </span>
+                                    <span class="w-240-px h-5 my-3">
+                                        <app-loader [border_radius_class]="'rounded-lg'" [additional_class]=""></app-loader>
+                                    </span>
+                                    <p class="w-full h-20">
+                                        <app-loader [border_radius_class]="'rounded-lg'" [additional_class]=""></app-loader>
+                                    </p>
+                                </div>
+                            </div>
+                        </ng-container>
+                    </div>
+                    <div class="col-span-5 flex flex-col ">
+                        <ng-container *ngIf="report_comment_data && api_type == 2"><!-- reported comment -->
+                            <div class="comment-bg-report p-3 grid grid-cols-12 gap-1 h-auto rounded-t-md overflow-y-auto overflow-x-hidden comment-down">
+                                <div class="col-span-12 mb-2">
+                                    <span class="text-base text-red-800">{{ (report_detail.report_status == 2 || report_detail.report_status == 3) && report_detail.report_type == 2 ? 'Deleted' : 'Reported'}} comment:</span>
+                                </div>
+                                <div class="col-span-2">
+                                    <img [src]="report_comment_data.profile_pic ? report_comment_data.profile_pic_path:'/assets/images/default_avatar.png'"
+                                        class="w-40-px h-40-px rounded-full mr-3 inline-block" alt="">
+                                </div>
+                                <div class="col-span-10">
+                                    <div class="default-text-color barlow-bold text-base inline-block">{{ report_comment_data.first_name }}
+                                        {{report_comment_data.last_name }}</div>
+                                    <svg *ngIf="report_comment_data.verification_status == 1" class="inline-block mb-1 ml-2" width="18"
+                                        height="18" viewBox="0 0 18 18" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                        <path
+                                            d="M9 18C13.9706 18 18 13.9706 18 9C18 4.02944 13.9706 0 9 0C4.02944 0 0 4.02944 0 9C0 13.9706 4.02944 18 9 18Z"
+                                            fill="white" />
+                                        <path
+                                            d="M9 16.5C13.1421 16.5 16.5 13.1421 16.5 9C16.5 4.85786 13.1421 1.5 9 1.5C4.85786 1.5 1.5 4.85786 1.5 9C1.5 13.1421 4.85786 16.5 9 16.5Z"
+                                            fill="#2CAEBA" />
+                                        <path
+                                            d="M9.14928 10.9259C9.44717 11.2238 9.44717 11.7345 9.14928 12.0324L8.53221 12.6494C8.23432 12.9473 7.72364 12.9473 7.42575 12.6494L4.72342 9.92583C4.42553 9.62794 4.42553 9.11726 4.72342 8.81937L5.34049 8.2023C5.63838 7.90441 6.14906 7.90441 6.44695 8.2023L9.14928 10.9259Z"
+                                            fill="white" />
+                                        <path
+                                            d="M11.5111 6.22342C11.8089 5.92553 12.3196 5.92553 12.6175 6.22342L13.2346 6.84049C13.5325 7.13838 13.5325 7.64905 13.2346 7.94695L8.55339 12.6069C8.2555 12.9048 7.74482 12.9048 7.44693 12.6069L6.82987 11.9898C6.53197 11.6919 6.53197 11.1812 6.82987 10.8833L11.5111 6.22342Z"
+                                            fill="white" />
+                                    </svg>
+                                    <span class="badge athlete inline-block ml-2"
+                                        *ngIf="report_comment_data.user_role_id == 3">Athlete</span>
+                                    <span class="badge fan inline-block ml-2" *ngIf="report_comment_data.user_role_id == 4">Fan</span>
+                                    <div class="default-text-color text-base">{{ report_comment_data.comment }}</div>
+                                    <ng-container *ngIf="report_comment_data.image_path">
+                                        <!-- <img [src]="report_comment_data.image_path" class="w-200-px h-180-px object-fit object-center my-3" alt=""> -->
+                                        <div class="comment-pic my-3 cursor-pointer" [ngStyle]="{'background-image': 'url(' + report_comment_data.image_path + ')'}" (click)="viewPoto(report_comment_data.image_path)"></div>
+                                    </ng-container>
+                                    <div class="text-gray-700 text-sm mt-1">{{ report_comment_data.created_at | transformDate: '': 'MMMM DD, yyyy hh:mm a' }}</div>
+                                </div>
+                            </div>
+                        </ng-container>
+    
+                        <div class="comment-bg flex-grow pt-3 pl-3 pr-0 grid grid-cols-12 gap-1 rounded-md overflow-hidden mb-3 minh-410-px">
+                            <div class="overflow-y-auto h-full col-span-12 mh flex flex-col custom-scroll pb-2" (scroll)="onScroll($event)">
+                                <!-- comment -->
+                                <ng-container *ngIf="report_detail.post_comment && (report_detail.post_comment.data.post_comment)">
+                                    <div class="col-span-12 mb-2"  *ngIf="api_type == 2">
+                                        <span class="text-base text-gray-700">Other comment:</span>
+                                    </div>
+                                    <div class="grid grid-cols-12 mt-4" *ngFor="let item of report_detail.post_comment.data.post_comment">
+                                        <ng-container *ngIf="report_comment_data && (report_detail.report_type == 2  && report_comment_data && item.id != report_comment_data.id) || report_detail.report_type == 1">
+                                            <div class="col-span-2">
+                                                <img [src]="item.profile_pic ? item.profile_pic_path : 'assets/images/default_avatar.png'"
+                                                    class="w-40-px h-40-px rounded-full mr-3 inline-block" alt="">
+                                            </div>
+                                            <div class="col-span-10">
+                                                <div class="default-text-color barlow-bold text-base inline-block">{{ item.first_name }}
+                                                    {{item.last_name }}</div>
+                                                <svg *ngIf="item.verification_status == 1" class="inline-block mb-1 ml-2" width="18"
+                                                    height="18" viewBox="0 0 18 18" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                                    <path
+                                                        d="M9 18C13.9706 18 18 13.9706 18 9C18 4.02944 13.9706 0 9 0C4.02944 0 0 4.02944 0 9C0 13.9706 4.02944 18 9 18Z"
+                                                        fill="white" />
+                                                    <path
+                                                        d="M9 16.5C13.1421 16.5 16.5 13.1421 16.5 9C16.5 4.85786 13.1421 1.5 9 1.5C4.85786 1.5 1.5 4.85786 1.5 9C1.5 13.1421 4.85786 16.5 9 16.5Z"
+                                                        fill="#2CAEBA" />
+                                                    <path
+                                                        d="M9.14928 10.9259C9.44717 11.2238 9.44717 11.7345 9.14928 12.0324L8.53221 12.6494C8.23432 12.9473 7.72364 12.9473 7.42575 12.6494L4.72342 9.92583C4.42553 9.62794 4.42553 9.11726 4.72342 8.81937L5.34049 8.2023C5.63838 7.90441 6.14906 7.90441 6.44695 8.2023L9.14928 10.9259Z"
+                                                        fill="white" />
+                                                    <path
+                                                        d="M11.5111 6.22342C11.8089 5.92553 12.3196 5.92553 12.6175 6.22342L13.2346 6.84049C13.5325 7.13838 13.5325 7.64905 13.2346 7.94695L8.55339 12.6069C8.2555 12.9048 7.74482 12.9048 7.44693 12.6069L6.82987 11.9898C6.53197 11.6919 6.53197 11.1812 6.82987 10.8833L11.5111 6.22342Z"
+                                                        fill="white" />
+                                                </svg>
+                                                <span class="badge athlete inline-block ml-2"
+                                                    *ngIf="item.user_role_id == 3">Athlete</span>
+                                                <span class="badge fan inline-block ml-2" *ngIf="item.user_role_id == 4">Fan</span>
+                                                <div class="default-text-color text-base">{{ item.comment }}</div>
+                                                <ng-container *ngIf="item.image_path">
+                                                    <!-- <img [src]="item.image_path" class="w-200-px h-180-px object-fit object-center my-3" alt=""> -->
+                                                    <div class="comment-pic my-3 cursor-pointer" [ngStyle]="{'background-image': 'url(' + item.image_path + ')'}" (click)="viewPoto(item.image_path)"></div>
+                                                </ng-container>
+                                                <div class="text-gray-700 text-sm mt-3">{{ item.created_at | transformDate: '': 'MMMM DD, yyyy hh:mm a' }}</div>
+                                            </div>
+                                        </ng-container>
+                                    </div>
+                                </ng-container>
+                                <ng-container *ngIf="report_detail.post_comment == null">
+                                    <div class="barlow-bold h-full text-gray-700 flex items-center justify-center col-span-12">
+                                        <div class="w-50-px border-b-2 border-gray-700 inline-flex mr-1"></div>
+                                        <i>This post has no comment</i>
+                                        <div class="w-50-px border-b-2 border-gray-700 inline-flex ml-1"></div>
+                                    </div>
+                                </ng-container>
+                                <div *ngIf="scrollRequesting" class="flex justify-center my-2">
+                                    <mat-spinner class="pink-loader" diameter="25" color="accent" mode="indeterminate"></mat-spinner>
+                                </div>
+                            </div>
+                        </div>
+    
+                    </div>
+                    <div class="col-span-12 mt-20">
+                        <div class="data-table mt-12">
+                            <table class="w-full">
+                                <thead>
+                                    <tr>
+                                        <ng-container *ngFor="let th of ths; let i = index">
+                                            <th class="text-left barlow">
+                                                {{ th.label }}
+                                            </th>
+                                        </ng-container>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <ng-container *ngIf="report_detail_list && !isLoading">
+                                        <tr class="focus:outline-none"
+                                            *ngFor="let item of report_detail_list.datas">
+                                            <td>{{ item.date_time | transformDate: '': 'MM/DD/yy, hh:mm A'}}</td>
+                                            <td [innerHtml]="render(item.name)" class="justify-start flex"></td>
+                                            <td>
+                                                {{ item.reported_as }}
+                                            </td>
+    
+                                        </tr>
+                                    </ng-container>
+                                    <ng-container *ngIf="isLoading">
+                                        <ng-container *ngFor="let item of [1,2,3,4]">
+                                            <tr>
+                                                <td>
+                                                    <div class="w-full h-15-px">
+                                                        <app-loader [border_radius_class]="'rounded-lg'"
+                                                            [additional_class]=""></app-loader>
+                                                    </div>
+                                                </td>
+                                                <td>
+                                                    <div class="w-full h-15-px">
+                                                        <app-loader [border_radius_class]="'rounded-lg'"
+                                                            [additional_class]=""></app-loader>
+                                                    </div>
+                                                </td>
+                                                <td>
+                                                    <div class="w-full h-15-px">
+                                                        <app-loader [border_radius_class]="'rounded-lg'"
+                                                            [additional_class]=""></app-loader>
+                                                    </div>
+                                                </td>
+                                            </tr>
+                                        </ng-container>
+                                    </ng-container>
+                                </tbody>
+                            </table>
+                        </div>
+                        <div class="flex justify-center border" *ngIf="!report_detail_list && !isLoading">
+                            <td class="py-12 text-base">No Results Found.</td>
+                        </div>
+                        <ng-container *ngIf="items && items.total_page > 1">
+                            <div class="pr-3 flex items-center justify-center table-pagination barlow mt-6" style="text-align: right;">
+                                <button class="page-btn barlow-bold {{ pagination.selected_page == 1  ? 'disable-page' : 'default-text-color' }}" style="white-space: nowrap;" (click) = "prevPage()" [disabled] = "pagination.selected_page == 1">
+                                    Previous 
+                                </button> 
+                                <button class="page-btn " (click) = "prevPage()" [disabled] = "pagination.selected_page == 1">
+                                    <i class="px-2 fa fa-angle-double-left mr-2 angle-icon {{ pagination.selected_page == 1  ? 'disable-svg' : 'btn-svg' }}"></i>
+                                </button>
+                                <span class="rounded-circle table-pagination page cursor-pointer" *ngIf="items.current_page > 2 && items.current_page != 1 && items.current_page != 2" (click)="setPage(1)">1</span>
+                                <span *ngIf="items.current_page > 2 && items.current_page != 1 && items.current_page != 2 && items.total_page > 4">...</span>
+                                <span class="rounded-circle table-pagination page cursor-pointer" *ngIf="items.current_page != 1" (click)="setPage(items.previous_page)">{{ items.previous_page }}</span>
+                                <span class="rounded-circle table-pagination page cursor-pointer active-page">{{ items.current_page }}</span>
+                                <span class="rounded-circle table-pagination page cursor-pointer" *ngIf="items.current_page < items.total_page" (click)="setPage(items.next_page)">{{ items.next_page }}</span>
+                                <span class="rounded-circle table-pagination page cursor-pointer" *ngIf="items.next_page+1 <= items.total_page && items.previous_page < items.next_page" (click)="setPage(items.next_page)">{{ items.next_page +1 }}</span>
+                                <span *ngIf="items.total_page > 4 && items.current_page + 1 < items.total_page">...</span>
+                                <span class="rounded-circle table-pagination page cursor-pointer" *ngIf="items.total_page > 4 && items.current_page + 1 < items.total_page" (click)="setPage(items.total_page)">{{ items.total_page }}</span>
+            
+                                <button class="page-btn " style="white-space: nowrap;" (click)="nextPage()" [disabled] = "pagination.selected_page == items.total_page">
+                                    <i class="px-2 fa fa-angle-double-right ml-2 angle-icon {{ pagination.selected_page == items.total_page  ? 'disable-svg' : 'btn-svg' }}"></i>
+                                </button>
+                                <button class="hover:text-gray-800 page-btn barlow-bold {{ pagination.selected_page == items.total_page  ? 'disable-page' : 'default-text-color' }}" (click)="nextPage()" [disabled]="pagination.selected_page == items.total_page">Next</button>
+                            </div>
+                        </ng-container>
+                    </div>
+                </div>
+                <ng-container *ngIf="report_detail && report_detail.report_status == 0">
+                    <div class="col-span-12 py-8 px-5 flex justify-end items-center text-base border-t border-gray-300 bg-white">
+                        <span class="barlow font-semibold text-base text-gray-700 mx-2">After reviewing the post, please select an action.</span>
+                        <button class="custom-btn btn-green px-4 py-3 mx-2 focus:outline-none" (click)="remainPublish()">Remain published</button>
+                        <button class="custom-btn btn-bg-pink px-4 py-3 ml-2 focus:outline-none" (click)="deleteReport()">Delete {{ api_type == 1 ? 'post' : 'comment' }}</button>
+                    </div>
+                </ng-container>
+            </ng-container>
+            <ng-container *ngIf="main_is_loading">
+                <div class="bg-white w-full h-screen rounded-lg">
+                    <div class="grid grid-cols-12 gap-3 py-8 px-6">
+                        <div class="col-span-7">
+                            <div class="flex justify-start">
+                                <div class="w-40-px h-40-px mr-3">
+                                    <app-loader [border_radius_class]="'rounded-full'"></app-loader>
+                                </div>
+                                <div class="flex flex-col">
+                                    <div class="w-250-px h-15-px mt-1">
+                                        <app-loader [border_radius_class]="'rounded-md'"></app-loader>
+                                    </div>
+                                    <div class="w-100-px h-15-px mt-1">
+                                        <app-loader [border_radius_class]="'rounded-md'"></app-loader>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="space-y-2 mt-5">
+                                <div class="w-500-px h-15-px">
+                                    <app-loader [border_radius_class]="'rounded-md'"></app-loader>
+                                </div>
+                                <div class="w-500-px h-15-px mt-5">
+                                    <app-loader [border_radius_class]="'rounded-md'"></app-loader>
+                                </div>
+                                <div class="w-500-px h-15-px mt-5">
+                                    <app-loader [border_radius_class]="'rounded-md'"></app-loader>
+                                </div>
+                                <div class="w-500-px h-15-px mt-5">
+                                    <app-loader [border_radius_class]="'rounded-md'"></app-loader>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-span-5">
+                            <div class="comment-bg p-5 rounded-md">
+                                <ng-container *ngFor="let item of [1, 2, 3]">
+                                    <div class="flex justify-start">
+                                        <div class="w-40-px h-40-px mr-3">
+                                            <app-loader [border_radius_class]="'rounded-full'"></app-loader>
+                                        </div>
+                                        <div class="flex flex-col">
+                                            <div class="w-250-px h-15-px mt-1">
+                                                <app-loader [border_radius_class]="'rounded-md'"></app-loader>
+                                            </div>
+                                            <div class="w-100-px h-15-px mt-1">
+                                                <app-loader [border_radius_class]="'rounded-md'"></app-loader>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="space-y-2 mt-5 mb-6">
+                                        <div class="w-320-px h-15-px">
+                                            <app-loader [border_radius_class]="'rounded-md'"></app-loader>
+                                        </div>
+                                        <div class="w-320-px h-15-px mt-5">
+                                            <app-loader [border_radius_class]="'rounded-md'"></app-loader>
+                                        </div>
+                                        <div class="w-320-px h-15-px mt-5">
+                                            <app-loader [border_radius_class]="'rounded-md'"></app-loader>
+                                        </div>
+                                        <div class="w-320-px h-15-px mt-5">
+                                            <app-loader [border_radius_class]="'rounded-md'"></app-loader>
+                                        </div>
+                                    </div>
+    
+                                </ng-container>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </ng-container>
+        </div>
+    
+    </div>
+</div>

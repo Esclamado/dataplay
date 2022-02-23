@@ -1,0 +1,20 @@
+/* You can add global styles to this file, and also import other style files */
+
+/* @import 'tailwindcss/base';
+@import 'tailwindcss/components';
+@import 'tailwindcss/utilities'; */
+@import 'assets/css/tailwind.scss';
+@import 'assets/css/mixins.scss';
+@import 'assets/css/globals.scss';
+@import 'assets/css/themify-icons.css';
+@import "~ngx-smart-modal/ngx-smart-modal";
+@import "~@fortawesome/fontawesome-free/css/all.min.css";
+@import 'assets/css/fonts.scss';
+@import 'assets/css/icons.scss';
+
+@import "assets/css/colors";
+@import "assets/css/datatables";
+@import '~ngx-toastr/toastr';
+
+html, body { height: 100%; }
+body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }

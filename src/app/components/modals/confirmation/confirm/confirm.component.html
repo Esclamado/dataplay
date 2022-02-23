@@ -1,0 +1,26 @@
+<ngx-smart-modal #confirmationModal identifier="confirmationModal" customClass="nsm-centered confirm" (onOpen)="getConfirmDetail()"
+(onClose)="reset()"
+(onAnyCloseEvent)="reset()">
+    <div *ngIf="confirmation_detail" class="bg-white pad-24 barlow rounded-lg text-base default-text-color w-480-px" ><!-- {{ confirmation_detail.purpose == 'remain_publish'  ? 'w-399-px' : ' w-480-px' }} -->
+        <div class="text-xl barlow-bold mb-5">{{ confirmation_detail.edit_details.title }}</div>
+        <div class="my-5 barlow text-base" [innerHTML]="confirmation_detail.edit_details.content"></div>
+
+        <div class=" flex items-center justify-end"><!-- buttons -->
+            <button class="mr-8 py-3 flex items-center px-6 focus:outline-none border-gray-500 border-2 rounded text-gray-600 hover:bg-gray-200 btn-h" (click)="secondary_action()">{{ confirmation_detail.edit_details.btn_cancel }}</button>
+            <ng-container *ngIf="confirmation_detail.purpose != 'remain_publish'">
+                <button class="custom-btn btn-blue py-3 px-6 focus:outline-none w-165-px" (click)="main_action()" *ngIf="!isLoading">
+                    {{ confirmation_detail.edit_details.btn_save }}
+                </button>
+            </ng-container>
+            <ng-container *ngIf="confirmation_detail.purpose == 'remain_publish'">
+                <button class="custom-btn btn-green py-3 px-6 focus:outline-none w-165-px" (click)="main_action()"*ngIf="!isLoading" >
+                    {{ confirmation_detail.edit_details.btn_save }}
+                </button>
+            </ng-container>
+            <button class="custom-btn w-165-px py-3 px-6 focus:outline-none {{ confirmation_detail.purpose == 'remain_publish'  ? 'btn-green' : 'btn-blue' }}"  *ngIf="isLoading">
+                <mat-spinner class="white-loader" diameter="20" color="accent" mode="indeterminate"></mat-spinner>
+            </button>
+
+        </div>
+    </div>                
+</ngx-smart-modal>

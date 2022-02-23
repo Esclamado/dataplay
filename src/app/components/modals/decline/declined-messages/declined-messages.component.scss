@@ -1,0 +1,37 @@
+textarea { 
+    resize: none; 
+}
+::ng-deep{
+    .white-box .nsm-content{
+        background: transparent;
+        box-shadow: none;
+    }
+    .white-box .nsm-dialog-btn-close{
+        border: 0;
+        // background: #e0e1e1;
+        position: absolute;
+        top: 30px !important;
+        right: 3px !important;
+        cursor: pointer;
+        padding: 7px;
+        border-radius: 50%;
+        &:hover,&:focus{
+            background: #e6e6e6;
+            outline: none;
+        }
+        svg{
+            width: 10px !important;
+            height: 10px !important;
+        }
+    }
+    .white-loader.mat-progress-spinner circle{
+        stroke: white !important;
+    }
+}
+.pad-25{
+    padding: 25px !important;
+}
+.pady-3{
+    padding-top: 14px;
+    padding-bottom: 14px;
+}

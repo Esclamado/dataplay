@@ -1,0 +1,42 @@
+::ng-deep{
+    .width .nsm-content{
+        width: 973px !important;
+        background: transparent !important;
+        border-radius: 8px;
+        box-shadow: none;
+    }
+    .nsm-dialog.nsm-center{
+        display: flex;
+        align-items: center;
+        min-height: calc(100% - (1.75rem * 2));
+        justify-content: center !important;
+        width: 1200px !important;
+        background: transparent;
+        max-width: 1088px;
+    }
+    .overlay{
+        overflow: hidden;
+    }
+    .width .nsm-dialog-btn-close{
+        border: 0;
+        position: absolute;
+        top: 5px !important;
+        right: -80px !important;
+        cursor: pointer;
+        padding: 7px;
+        border-radius: 50%;
+        &:hover,&:focus{
+            background: #c4c2c2;
+            outline: none;
+        }
+        svg{
+            width: 12px !important;
+            height: 12px !important;
+        }
+    }
+}
+.close-btn{
+    position: absolute;
+    top: -36px;
+    right: -90px;
+}

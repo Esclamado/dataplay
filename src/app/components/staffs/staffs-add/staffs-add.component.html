@@ -1,0 +1,159 @@
+<div class="overflow-x-auto custom-scroll h-full">
+    <div class="mx-auto p-12 w-table">
+        <div class="text-base barlow">
+            <button class="whitespace-no-wrap custom-btn items-center border-2 hover:bg-gray-400 border-gray-700 px-5 py-2" (click)="backClicked()">
+                <i class="fas fa-arrow-left mr-2 mt-1 text-gray-700"></i>
+                <span class="text-base text-gray-700 barlow">Back</span>
+            </button>
+        </div>
+        <div class="mt-12 barlow-bold">
+            <p class="fs-28-px" *ngIf="!getUserID">Add a Staff Account</p>
+            <p class="fs-28-px" *ngIf="getUserID">Edit Staff Account</p>
+        </div>
+        <form class="" [formGroup]="staffForm">
+            <div class="grid grid-cols-12 gap-8">
+                <div class="col-span-9 bg-white rounded-lg p-8 mt-12 barlow text-base">
+                    <div class="font-extrabold barlow">
+                        <p class="fs-24-px">Personal Information</p>
+                    </div>
+                    <div class="grid grid-cols-2 mt-10 gap-8">
+                        <div class="h-112-px">
+                            <div class="py-2">
+                                <span class="text-sm text-gray-600">Full Name <span *ngIf="!getUserID" class="text-red-700 font-bold">*</span></span>
+                            </div>
+                            <div class="rounded-md">
+                                <input formControlName="name" class="border-2 border-gray-400 custom-inputs rounded-md w-full py-4 px-4" type="text" [ngClass]="{'error pr-30-px': staffForm.controls.name.touched && !staffForm.controls.name.valid}">
+                            </div>
+                            <ng-container *ngIf="staffForm.controls.name.touched">
+                                <span class="text-red-700 mb-0 fs-14-px" *ngIf="staffForm.controls.name.hasError('required')">Full Name is
+                                    required</span>
+                            </ng-container>
+                        </div>
+                        <div class="h-112-px">
+                            <div class="py-2">
+                                <span class="text-sm text-gray-600">Role <span *ngIf="!getUserID" class="text-red-700 font-bold">*</span></span>
+                            </div>
+                            <div class="rounded-md" >
+                                <!-- <input formControlName="role" class="border-2 bg-gray-400 border-gray-400 rounded-md w-full py-4 px-4 placeholder-black" type="text" placeholder="Admin" disabled> -->
+
+                                <div #t2="matMenuTrigger" #select2 [matMenuTriggerFor]="role_select"  #t="matMenuTrigger" (click)="menuTouch()"
+                                    class="border border-gray-400 rounded-md py-3 pl-0 pr-3 minw-250-px flex justify-between items-center h-55-px cursor-pointer custom-inputs">
+                                    <span class="barlow text-black text-base font-lg">{{ roleSelected ? roleSelected : '' }}</span>
+                                    <i class="fas fa-caret-down"></i>
+                                </div>
+
+                                <mat-menu class="w-full sports-menu" #role_select="matMenu" class="role-menu">
+                                    <div class="w-full barlow relative flex items-center text-base" *ngFor="let sort of roles">
+                                        <button mat-menu-item class="tracking-wide focus:outline-none barlow hover:text-teal-800 hover:bg-teal-300" (click)="selectedRole(sort.type, sort.name)">
+                                            <strong>{{ sort.name | titlecase }}</strong> 
+                                        </button>
+                                    </div>
+                                </mat-menu>
+
+                                <ng-container *ngIf="touchMenu">
+                                    <span class="text-red-700 mb-0 fs-14-px" *ngIf="!roleSelected && !roleChange">Role is required</span>
+                                </ng-container>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="grid grid-cols-2 mt-5 gap-8">
+                        <div class="h-112-px">
+                            <div class="py-2">
+                                <span class="text-sm text-gray-600">Mobile Number <span *ngIf="!getUserID" class="text-red-700 font-bold">*</span></span>
+                            </div>
+                            <div class="flex">
+                                <!-- <div class="num-input rounded-l-md bg-gray-400 w-70-px py-4">
+                                    <span  class="ml-4 text-gray-700">+63</span>
+                                </div> -->
+                                <div class="w-full numb-contain">
+                                    <pre class="barlow"><span class="numb flex items-center">   +63</span></pre>
+                                    <input 
+                                    maxlength="12"
+                                    (keydown)="phoneNumberSpacing($event)"
+                                    #ccNumber 
+                                    formControlName="number" 
+                                    class="custom-inputs rounded-md w-full py-4 px-4 border-gray-400 border-2" 
+                                    type="text" 
+                                    placeholder="000 000 0000"
+                                    [ngClass]="{'error pr-30-px': staffForm.controls.number.touched && !staffForm.controls.number.valid}"
+                                    style="padding-left: 65px;">
+                                </div>
+                            </div>
+                            <ng-container *ngIf="staffForm.controls.number.touched">
+                                <span class="text-red-700 mb-0 fs-14-px" *ngIf="staffForm.controls.number.hasError('required')">Mobile Number is
+                                    required</span>
+                                 <span class="text-red-700 mb-0 fs-14-px" *ngIf="staffForm.controls.number.hasError('minlength')">Mobile Number must contatin 10 digits</span>
+                            </ng-container>
+                        </div>
+                        <div class="h-112-px">
+                            <div class="py-2">
+                                <span class="text-sm text-gray-600">Email <span *ngIf="!getUserID" class="text-red-700 font-bold">*</span></span>
+                            </div>
+                            <div class="rounded-md">
+                                <input formControlName="email" class="border-2 border-gray-400 custom-inputs rounded-md w-full py-4 px-4" type="text" [ngClass]="{'error  pr-30-px': staffForm.controls.email.touched && !staffForm.controls.email.valid}">
+                            </div>
+                            <ng-container *ngIf="staffForm.controls.email.touched">
+                                <span class="text-red-700 mb-0 fs-14-px" *ngIf="staffForm.controls.email.hasError('required')">Email is
+                                    required</span>
+                                <span class="text-red-700 mb-0 fs-14-px" *ngIf="staffForm.controls.email.hasError('pattern')">Email must be in
+                                    valid format!</span>
+                            </ng-container>
+                        </div>
+                    </div>
+                    <div class="grid grid-cols-6 mt-10">
+                        <div class="col-span-1 rounded-full bg-gray-300 w-100-px h-100-px" *ngIf="!dpUrl">
+                            <img class="img-avatar" src="/assets/images/person_24px.png">
+                        </div>
+                        <img class="col-span-1 rounded-full bg-gray-300 w-100-px h-100-px" *ngIf="dpUrl" [src]="dpUrl" size="200">
+                        <div class="col-span-5 pl-5">
+                            <span class="text-gray-700">Upload a profile photo</span>
+                            <div class="flex items-center space-x-4 my-5">
+                                <button class="custom-btn btn-bg-pink py-3 px-4 focus:outline-none" (click)="uploadDP.value = null;uploadDP.click()"><span class="material-icons fs-16-px pr-2 mt-1">upload</span>
+                                    <span class="whitespace-no-wrap font-bold">Choose File</span></button>
+                                <input type="file" class="hidden" accept="image/jpeg, image/png" (change)="selectDP($event)" #uploadDP>
+                                <span class="trim-info" style="color: #2C2C39">{{ filename ? filename : userPic }}</span>
+                                <span class="icon-hover">
+                                    <svg *ngIf="filename || userPic" class="mx-2 cursor-pointer" width="14" height="14" viewBox="0 0 14 14" fill="none" xmlns="http://www.w3.org/2000/svg"
+                                    (click)="removeDP()">
+                                    <path d="M13.4173 1.876L12.1248 0.583496L7.00065 5.70766L1.87648 0.583496L0.583984 1.876L5.70815 7.00016L0.583984 12.1243L1.87648 13.4168L7.00065 8.29266L12.1248 13.4168L13.4173 12.1243L8.29315 7.00016L13.4173 1.876Z" fill="#98A2AF"/>
+                                </svg>
+                                </span>
+                            </div>
+                            <span class="text-gray-800 fs-12-px font-extrabold">Maximum image file size is 1MB. Try resizing it to atleast 500x500 px in resolution.</span>
+                        </div>
+                    </div>
+                    <hr class="mt-6">
+                    <div class="mt-10">
+                        <div class="flex flex-row-reverse">
+                            <button *ngIf="!getUserID"  class="whitespace-no-wrap custom-btn items-center px-6 py-4 font-bold focus:outline-none w-173-px
+                                {{ ( (staffForm.pristine || !dpUrl || !roleChange || staffForm.controls.email.hasError('pattern') || staffForm.controls.number.hasError('minlength')) && !staffForm.valid) ||  (staffForm.dirty && (staffForm.value.name == '' || staffForm.value.email == '' || staffForm.value.number == '') )  ? 'btn-disabled' : 'btn-main-pink' }} " 
+                                [disabled]=" ( (staffForm.pristine || !dpUrl || !roleChange || staffForm.controls.email.hasError('pattern') || staffForm.controls.number.hasError('minlength')) && !staffForm.valid ) ||  (staffForm.dirty && (staffForm.value.name == '' || staffForm.value.email == '' || staffForm.value.number == '' ))"
+                                (click)="submit()">
+                                <span *ngIf="!getUserID && !isLoading" >Add Staff Account</span>
+                                <mat-spinner class="white-loader" *ngIf="isLoading" diameter="20" color="accent" mode="indeterminate"></mat-spinner>
+                            </button>
+
+                            <button *ngIf="getUserID"  class="whitespace-no-wrap custom-btn items-center px-6 py-4 font-bold focus:outline-none w-173-px
+                                {{( staffForm.pristine && !staffForm.valid  && !dpChange && !roleChange) || staffForm.controls.email.hasError('pattern') || staffForm.controls.number.hasError('minlength') || ( staffForm.dirty && (staffForm.value.name == '' || staffForm.value.email == '' || staffForm.value.number == ''))  ? 'btn-disabled' : 'btn-main-pink' }} " 
+                                [disabled]="( staffForm.pristine && !staffForm.valid  && !dpChange && !roleChange) || staffForm.controls.email.hasError('pattern')  || staffForm.controls.number.hasError('minlength') || ( staffForm.dirty && (staffForm.value.name == '' || staffForm.value.email == '' || staffForm.value.number == ''))" 
+                                (click)="submit()">
+                                <span *ngIf="!isLoading" >Save Changes</span>
+                                 <mat-spinner class="white-loader" *ngIf="isLoading" diameter="20" color="accent" mode="indeterminate"></mat-spinner>
+                             </button>
+                            <button class="focus:outline-none" (click)="backClicked()"><span class="font-bold text-gray-700 hover:text-teal-700 mr-10">Cancel</span></button>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-span-3 bg-white rounded-lg p-8 mt-12 barlow text-base h-230-px" *ngIf="getUserID && userDetails && userDetails.status != 2">
+                    <p class="whitespace-no-wrap font-bold fs-16-px">Deactivate Account</p>
+                    <span class="text-sm text-gray-700">This staff will not be able to access their dashboard. Can be activated at any time</span>
+                    <div class="flex justify-center">
+                        <button class="whitespace-no-wrap custom-btn btn-bg-pink items-center px-4 py-2 mt-5 focus:outline-none" (click)="deactivateAccount()">
+                            <span class="text-sm">Deactivate this user</span>
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>

@@ -1,0 +1,20 @@
+td:last-child{
+    vertical-align: middle;
+    text-align: center;
+}
+table { border-collapse: collapse; }
+td { 
+    border: none; 
+}
+tr {
+  border-bottom: solid 1px #E0E1E1 ;
+}
+tr:first-child{
+    border-bottom: solid 3px #E0E1E1 
+}
+tr:last-child{
+    border-bottom: none;
+}
+.border-b {
+    border-bottom-width: 4px !important;
+}

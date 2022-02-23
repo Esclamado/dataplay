@@ -1,0 +1,10 @@
+.deleted-comment{
+    background: #f9dce1;
+}
+::ng-deep{
+    .post-menu{
+        &.mat-menu-panel{
+        min-height: 47px !important;
+        }
+    } 
+}

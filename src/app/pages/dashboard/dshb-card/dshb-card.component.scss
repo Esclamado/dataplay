@@ -1,0 +1,13 @@
+.bg-color{
+    background-color:#deedef;
+}
+
+.icon-hover{
+    &:hover{
+        i, svg path, span{
+            fill:red!important;
+            color:red!important;
+        }
+        color:red!important;
+    }
+}

@@ -1,0 +1,39 @@
+<div class="mx-auto">
+        <div class="col-span-8 barlow default-text-color" *ngIf="verif_detail">
+            <div class="bg-white px-10 py-6 shadow-bottom rounded-lg">
+                <div class="barlow-bold  text-lg">Verification request</div>
+                <div class="text-base mt-2">This athlete requested for a verified badge.</div><div class=""></div>
+                <div class="grid grid-cols-12 gap-5 mt-5">
+                    <div class="col-span-6">
+                        <span class="text-lg ">Athlete ID:</span> 
+                        <div class="w-237-px h-193-px object-cover mt-2 cursor-pointer square-div gray-frame" 
+                            [defaultImage]="lazyImage_url" 
+                            [lazyLoad]="verif_detail.athete_id_path" 
+                            (click)="viewPoto(verif_detail.athete_id_path)">
+                        </div>
+                        <!-- <img [src]="verif_detail.athete_id_path" class="w-237-px h-193-px object-cover mt-2 cursor-pointer" (click)="viewPoto(verif_detail.athete_id_path)"> -->
+                        <!-- <div class="id-display" [ngStyle]="{'background-image': 'url(' + verif_detail.athete_id_path  + ')'}" (click)="viewPoto(verif_detail.athete_id_path)"></div> -->
+                    </div>
+                    <div class="col-span-6">
+                        <span class="text-lg">Secodary ID:</span>
+                        <div class="w-237-px h-193-px object-cover mt-2 cursor-pointer square-div gray-frame" 
+                            [defaultImage]="lazyImage_url" 
+                            [lazyLoad]="verif_detail.valid_id_path" 
+                            (click)="viewPoto(verif_detail.valid_id_path)">
+                        </div>
+                        <!-- <img [src]="verif_detail.valid_id_path" class="w-237-px h-193-px object-cover mt-2 cursor-pointer" (click)="viewPoto(verif_detail.valid_id_path)"> -->
+                        <!-- <div class="id-display" [ngStyle]="{'background-image': 'url(' + verif_detail.valid_id_path  + ')'}" (click)="viewPoto(verif_detail.valid_id_path)"></div> -->
+                    </div>
+                </div>
+                <div class="flex justify-end mt-10 text-base">
+                    <button class="custom-btn btn-bg-pink focus:outline-none px-5 py-3 mr-5" (click)="declineVerification()">
+                        Decline Request
+                    </button>
+                    <button class="custom-btn btn-blue focus:outline-none px-5 py-3" (click)="approveVerification()">
+                        Approve Request
+                    </button>
+                </div>
+            </div>
+
+        </div>
+</div>

@@ -1,0 +1,12 @@
+<div class="grid grid-cols-5 grid-rows-2 gap-4">
+    <div *ngIf="metadata.meta.image || metadata.meta.site.logo || metadata.meta.site.favicon " class="col-span-2 row-span-2">
+        <div class="h-180-px block w-180-px rounded-lg">
+           <img [src]="metadata.meta.image ? metadata.meta.image : metadata.meta.site.logo ?  metadata.meta.site.logo : metadata.meta.site.favicon" alt="" class="w-full h-full object-cover rounded-lg">
+        </div>
+    </div>
+    <div class="col-span-3 row-span-2 flex flex-col space-y-2 default-text-color barlow text-sm">
+        <span >{{ metadata.meta.site.name }}</span>
+        <span class="barlow-bold text-base">{{ metadata.meta.title }}</span>
+        <p>{{ metadata.meta.description }}</p>
+    </div>
+</div>

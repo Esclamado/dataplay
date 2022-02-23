@@ -1,0 +1,28 @@
+<span class="text-2xl font-extrabold text-black">Chart JS</span>
+<div class="w-full text-lg p-10 bg-white rounded mt-12">
+   Line Graph
+
+   <div class="mt-4 w-full h-400-px flex flex-row justify-center">
+      <ngx-charts-line-chart
+      [scheme]="colorScheme"
+      [legend]="legend"
+      [showXAxisLabel]="showXAxisLabel"
+      [showYAxisLabel]="showYAxisLabel"
+      [xAxis]="xAxis"
+      [yAxis]="yAxis"
+      [xAxisLabel]="xAxisLabel"
+      [yAxisLabel]="yAxisLabel"
+      [timeline]="timeline"
+      [results]="sampleData"
+      (select)="onSelect($event)"
+      (activate)="onActivate($event)"
+      (deactivate)="onDeactivate($event)"
+      >
+      </ngx-charts-line-chart>
+   </div>
+  
+
+   <div class="mt-5">
+      To learn more about ngx-charts, visit <a class="no-underline text-blue-700" href="https://swimlane.gitbook.io/ngx-charts/v/docs-test/" target="_blank">https://swimlane.gitbook.io/ngx-charts/v/docs-test/</a>.
+   </div>
+</div>

@@ -1,0 +1,18 @@
+/* .icon-datatables-order-default {
+    &:before {
+        vertical-align: middle;
+        content: url('/assets/images/datatables/default.svg');
+    }
+} */
+.icon-datatables-order-asc {
+    &:before {
+        vertical-align: middle;
+        content: url('/assets/images/datatables/asc1.svg');
+    }
+}
+.icon-datatables-order-desc {
+    &:before {
+        vertical-align: middle;
+        content: url('/assets/images/datatables/desc1.svg');
+    }
+}

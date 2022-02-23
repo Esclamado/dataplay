@@ -1,0 +1,65 @@
+<ngx-smart-modal 
+#deactivateModal 
+identifier="deactivateModal" 
+customClass="nsm-centereds" 
+(onOpen)="getDeactivate()"
+(onClose)="reset()"
+(onAnyCloseEvent)="reset()">
+<div class="w-480-px h-full">
+    <div class="bg-white rounded-lg barlow text-base flex flex-col p-8">
+        <!-- <div class="flex flex-col"> -->
+            <div class="py-3">
+                <span class="fs-20-px barlow-bold">Deactivate account</span>
+            </div>
+            <div class="">
+                <span class="">Your are about to deactivate this user's account.</span>
+            </div>
+            <form [formGroup]="dateForm">
+                <div class="py-3">
+                    <span class="text-sm text-gray-600">Reason for deactivation</span>
+                    <textarea class="custom-input border border-gray-400 rounded-md focus:outline-none mt-2 w-full p-4" formControlName="reason" id="" name="" maxlength="500" rows="5" cols="43" placeholder="Type here...">
+                    </textarea>
+                </div>
+            </form>
+            <div class="py-3">
+                <span class="">Deactivate this account for:</span>
+            </div>
+            <div class="">
+                <mat-radio-group class="flex flex-col deac-radio-bg" aria-label="Select an option" (change)="onItemChange($event)">
+                    <mat-radio-button class="py-2 radio-btn" value="0" [checked]="true" (click)="dateForm.controls.start.reset(); dateForm.controls.end.reset();"><span class="barlow-bold">Until I turn it back on</span></mat-radio-button>
+                    <mat-radio-button class="py-2 radio-btn" value="1" [checked]="false"><span class="barlow-bold">Select start and end date</span></mat-radio-button>
+                </mat-radio-group>
+            </div>
+            <div class="" *ngIf="isSelected">
+                <div class="mb-2">
+                    <span class="text-sm text-gray-600">Select dates</span>
+                </div>
+                <form [formGroup]="dateForm">
+                    <div class="custom-input flex justify-between items-center border border-gray-400 rounded-md p-1" (click)="picker.open()">
+                        <div class="ml-4">
+                            <mat-date-range-input [rangePicker]="picker" [min]="todayDate">
+                                <input readonly matStartDate formControlName="start" maxlength="12" class="placeholder-gray-600" placeholder="MM/DD/YYYY">
+                                <input readonly matEndDate formControlName="end" maxlength="11" class="placeholder-gray-600" placeholder="- - -    MM/DD/YYYY">
+                            </mat-date-range-input>
+                        </div>
+                        <div class="focus:outline-none" >
+                            <mat-datepicker-toggle class="focus:outline-none" matSuffix [for]="picker">
+                                <mat-icon matDatepickerToggleIcon class="focus:outline-none">calendar_today</mat-icon>
+                            </mat-datepicker-toggle>
+                            <mat-date-range-picker #picker></mat-date-range-picker>
+                        </div>
+                    </div>
+                </form>
+            </div>
+            <div class="ml-auto mt-8" (click)="submit()">
+                <button class="whitespace-no-wrap custom-btn items-center px-8 py-4 focus:outline-none w-200-px 
+                {{ (isSelected == true && (!dateForm.controls.start.value || !dateForm.controls.end.value)) || !dateForm.controls.reason.value  ? 'btn-disabled' : 'btn-main-pink' }}" 
+                    [disabled]="(isSelected == true && (!dateForm.controls.start.value || !dateForm.controls.end.value)) || !dateForm.controls.reason.value" *ngIf="!isLoading">Deactivate account</button>
+                <button class="w-200-px shadow custom-btn btn-main-pink text-white focus:shadow-outline focus:outline-none p-4 rounded" *ngIf="isLoading">
+                    <mat-spinner class="white-loader" diameter="20" color="accent" mode="indeterminate"></mat-spinner>
+                </button>
+            </div>
+        <!-- </div> -->
+    </div>  
+</div>     
+</ngx-smart-modal>

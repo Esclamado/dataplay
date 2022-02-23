@@ -1,0 +1,30 @@
+<div class="overflow-x-auto h-full custom-scroll">
+    <div class="mx-auto p-12 w-table">
+        <div class="text-base barlow">
+            <button class="whitespace-no-wrap custom-btn items-center border-2 border-gray-700 hover:bg-gray-400 px-5 py-2" (click)="backClicked()">
+                <i class="fas fa-arrow-left mr-2 mt-1 text-gray-700"></i>
+                <span class="text-base text-gray-700">Back</span>
+            </button>
+        </div>
+        <div class="grid grid-cols-12 gap-4">
+            <div class="col-span-9 bg-white rounded-lg mt-10 px-10 py-16">
+                <div class="grid grid-cols-9 text-base barlow gap-8">
+                    <div class="col-span-1">
+                        <img src="/assets/images/icon/warning.png">
+                    </div>
+                    <div class="col-span-5">
+                        <div class="flex flex-col">
+                            <p class="fs-20-px barlow-bold">Deactivate Account</p>
+                            <span class="text-gray-700">The user will not be able to access the platform but all of his or her information and transactions will remain saved. Can be activated at any time.</span>
+                        </div>
+                    </div>
+                    <div class="col-span-3">
+                        <button class="whitespace-no-wrap custom-btn items-center px-8 py-4 bg-gray-900 hover:bg-black" (click)="deactivateAccount()">
+                            <span class="font-bold">Deactivate this user</span>
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

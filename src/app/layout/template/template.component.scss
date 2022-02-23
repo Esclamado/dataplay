@@ -1,0 +1,39 @@
+
+.sidenav{
+    min-width:80px;
+    transition: .2s ease-in-out;
+
+    &.expanded{
+        min-width:260px !important;
+    }
+}
+// .content{
+//     height: calc(100% - 64px);
+//     align-self: baseline;
+// }
+.main-content{
+    height: calc(100% - 64px);
+    align-self: baseline;
+    &::-webkit-scrollbar{
+        width: 0px;
+    }
+    scrolbar-width: 0px;
+}
+
+::ng-deep{
+    .mat-drawer-container{
+        overflow: hidden !important;
+    }
+    .mat-sidenav {
+        width: 200px !important;
+    }  
+}
+.default-bg-color{
+    background: #e5e7f0;
+}
+.template{
+    width: calc(100vw - 80px);
+    &.exp{
+        width: calc(100vw - 260px);
+    }
+}

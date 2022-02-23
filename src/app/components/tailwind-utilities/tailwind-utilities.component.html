@@ -1,0 +1,152 @@
+<span class="text-2xl font-extrabold text-black select-none">Tailwind Utilities</span>
+<div class="w-full  select-none text-lg p-10 bg-white rounded mt-12">
+   <mat-tab-group>
+      <mat-tab label="Breakpoints"> 
+         <span class="fw-900 fs-30 block mt-4">Breakpoints</span>
+         <img class="w-1/4 mt-4" src="assets/images/breakpoints.png" alt="">
+         <div class="block italic text-gray-500 mt-2">breakpoint:class (e.g. sm:text-white md:text-black)</div>
+      </mat-tab>
+      <mat-tab label="Grids"> 
+         <div class="fw-900 mt-4 fs-30">Grids</div>
+         <div class="fw-500 mt-4">Grid column</div>
+         <span class="text-gray-600 italic block">Defines columns for grid layout. </span>
+         <div class="block mt-5">parent div class: grid (display:grid) &nbsp;&nbsp;grid-cols-3 (3 columns) &nbsp;&nbsp; gap-4(to
+            specifiy gaps)</div>
+         <div class="grid grid-cols-3 gap-4 mt-4">
+            <div class="relative col-span-3 bg-gray-500 py-4 text-center">
+               child element class: col-span-3
+            </div>
+            <div class="relative col-span-2 bg-gray-500  py-4 text-center">
+               child element class: col-span-2</div>
+            <div class="relative col-span-1 bg-gray-300  py-4 text-center">
+               child element class: col-span-1</div>
+            <div class="relative col-span-1 bg-gray-300  py-4 text-center">
+               child element class: col-span-1</div>
+            <div class="relative col-span-2 bg-gray-500  py-4 text-center">
+               child element class: col-span-2</div>
+         </div>
+         
+         <div class="fw-500 mt-8">Grid Column starting and ending lines</div>
+         <span class="text-gray-600 italic block mt-2">Sets a grid item location within the grid column. </span>
+         <div class="block mt-5">parent div class: grid (display:grid) &nbsp;&nbsp;grid-cols-6 (6 columns) &nbsp;&nbsp; gap-4(to
+            specifiy gaps)</div>
+         <div class="grid grid-cols-6 gap-4 mt-4">
+            <div class="col-start-2 col-span-4 py-4 bg-gray-500 text-center">
+               child element class: col-start-2 col-span-4
+            </div>
+            <div class="col-start-1 col-end-3 py-4 bg-gray-300 text-center">
+               child element class: <span class="whitespace-no-wrap">col-start-1 col-end-3</span>
+            </div>
+            <div class="col-end-7 col-span-2 py-4 bg-gray-500 text-center">
+               child element class: <span class="whitespace-no-wrap">col-end-7 col-span-2</span>
+            </div>
+            <div class="col-start-1 col-end-7 py-4 bg-gray-300 text-center">
+               child element class: col-start-1 col-end-7
+            </div>
+         </div>
+         <div class="fw-500 mt-8">Grid rows</div>
+         <span class="text-gray-600 italic block mt-2">Defines rows for grid layout. </span>
+         <div class="block mt-5">parent div class: <br> grid (display:grid) &nbsp;&nbsp;grid-rows-3 (3 rows) &nbsp;&nbsp;
+            grid-flow-col(where to put next div when row is full) &nbsp;&nbsp; gap-4(to specifiy gaps)</div>
+         <div class="grid grid-rows-3 grid-flow-col gap-4 mt-4">
+            <div class="row-span-3  bg-gray-500 py-4 text-center">
+               child element class: row-span-3
+            </div>
+            <div class="row-span-1 col-span-2  bg-gray-300 py-4 text-center">
+               child element class: row-span-1 col-span-2
+            </div>
+            <div class="row-span-2 col-span-2  bg-gray-300 py-4 text-center">
+               child element class: row-span-2 col-span-2
+            </div>
+         </div>
+         
+         <div class="fw-500 mt-8">Grid Row starting and ending lines</div>
+         <span class="text-gray-600 italic block mt-2">Sets a grid item location within the grid row. </span>
+         <div class="block mt-5">parent div class: grid (display:grid) &nbsp;&nbsp;grid-rows-3 (3 rows) &nbsp;&nbsp; gap-4(to
+            specifiy gaps)</div>
+         <div class="grid grid-rows-3 grid-flow-col gap-4 mt-4">
+            <div class="row-start-2 row-span-2 py-4 bg-gray-500 text-center">
+               child element class: <span class="whitespace-no-wrap">row-start-2 row-span-2 </span>
+            </div>
+            <div class="row-end-3 row-span-2 py-4 bg-gray-300 text-center">
+               child element class: <span class="whitespace-no-wrap">row-end-3 row-span-2 </span>
+            </div>
+            <div class="row-start-1 row-end-4 py-4 bg-gray-500 text-center">
+               child element class: <span class="whitespace-no-wrap">row-start-1 row-end-4 </span>
+            </div>
+         </div> 
+      </mat-tab>
+      <mat-tab label="Flex"> 
+         <div class="fw-900 mt-4 fs-30">Flex</div>
+         <div class="block italic text-gray-500 mt-2">Sets element to be a flex container.</div>
+         <div class="fw-500 mt-8">Flex Width</div>
+         <span class="text-gray-600 italic block mt-2">Sets the width of flex container.</span>
+         <div class="block mt-5">parent div class: &nbsp;&nbsp; flex (display:flex) <span class="italic text-gray-400">Width automatically set to 100%</span></div>
+         <div class="flex  mt-2 bg-gray-200 p-2">Flex Container</div>
+         <div class="block mt-5">parent div class: &nbsp;&nbsp; inline-flex (display:inline-flex) <span class="italic text-gray-400">Width depends on the width of it's content</span> </div>
+         <div class="inline-flex  mt-2 bg-gray-200 p-2">Flex Container</div>
+
+         
+         <div class="fw-500 mt-8">Flex Directions</div>
+         <span class="text-gray-600 italic block mt-2">Sets direction of flex items.</span>
+         <div class="block mt-5">parent div class: &nbsp;&nbsp; flex (display:flex) &nbsp;&nbsp;flex-row (flex-direction: row) </div>
+         <div class="flex flex-row hover:flex-row-reverse  mt-2 bg-gray-200 p-2">
+            <div class="bg-gray-500 py-4 text-center px-4">div 1</div>
+            <div class="bg-gray-300 py-4 text-center px-4">div 2</div>
+            <div class=" bg-gray-500 py-4 text-center px-4">div 3</div>
+         </div>
+         <div class="block mt-5">parent div class: &nbsp;&nbsp; flex (display:flex) &nbsp;&nbsp;flex-row-reverse (flex-direction: row-reverse) </div>
+         <div class="flex flex-row-reverse w-full mt-2  bg-gray-200 p-2">
+            <div class="bg-gray-500 py-4 text-center px-4">div 1</div>
+            <div class="bg-gray-300 py-4 text-center px-4">div 2</div>
+            <div class=" bg-gray-500 py-4 text-center px-4">div 3</div>
+         </div>
+         <div class="block mt-5">parent div class: &nbsp;&nbsp; flex (display:flex) &nbsp;&nbsp;flex-col-reverse (flex-direction: column) </div>
+         <div class="flex flex-col w-full mt-2  bg-gray-200 p-2">
+            <div class="bg-gray-500 py-4 text-center px-4">div 1</div>
+            <div class="bg-gray-300 py-4 text-center px-4">div 2</div>
+            <div class=" bg-gray-500 py-4 text-center px-4">div 3</div>
+         </div>
+         <div class="block mt-5">parent div class: &nbsp;&nbsp; flex (display:flex) &nbsp;&nbsp;flex-col-reverse (flex-direction: column-reverse) </div>
+         <div class="flex flex-col-reverse w-full mt-2  bg-gray-200 p-2">
+            <div class="bg-gray-500 py-4 text-center px-4">div 1</div>
+            <div class="bg-gray-300 py-4 text-center px-4">div 2</div>
+            <div class=" bg-gray-500 py-4 text-center px-4">div 3</div>
+         </div>
+
+         <!-- <div class="fw-500 mt-8">Flex Box Alignments</div>
+         <span class="text-gray-600 italic block mt-2">Sets the alignments of flex items.</span>
+         <div class="block mt-5">parent div class: &nbsp;&nbsp; flex (display:flex) &nbsp;&nbsp;flex-row (flex-direction: row)
+         </div>
+         <div class="flex flex-row hover:flex-row-reverse  mt-2 bg-gray-200 p-2">
+            <div class="bg-gray-500 py-4 text-center px-4">div 1</div>
+            <div class="bg-gray-300 py-4 text-center px-4">div 2</div>
+            <div class=" bg-gray-500 py-4 text-center px-4">div 3</div>
+         </div>
+         <div class="block mt-5">parent div class: &nbsp;&nbsp; flex (display:flex) &nbsp;&nbsp;flex-row-reverse (flex-direction:
+            row-reverse) </div>
+         <div class="flex flex-row-reverse w-full mt-2  bg-gray-200 p-2">
+            <div class="bg-gray-500 py-4 text-center px-4">div 1</div>
+            <div class="bg-gray-300 py-4 text-center px-4">div 2</div>
+            <div class=" bg-gray-500 py-4 text-center px-4">div 3</div>
+         </div> -->
+      </mat-tab>
+      <mat-tab label="Others"> 
+         <div class="fw-900 mt-4 fs-30">Hover</div>
+         <div class="block italic text-gray-500 mt-2">just add 'hover:' before the class</div>
+         <div class="mt-4 w-full py-4 bg-gray-300 text-gray-900 hover:bg-red-600 hover:text-white cursor-pointer text-center">
+            div class: bg-gray-300 text-gray-900 hover:bg-red-600 hover:text-white
+         </div> 
+      </mat-tab>
+   </mat-tab-group>
+   
+   
+   
+   
+
+
+   <div class="block mt-16">
+      If you want to learn more about tailwind, visit <a class="no-underline text-blue-600"
+         href="https://nerdcave.com/tailwind-cheat-sheet" target="_blank">https://nerdcave.com/tailwind-cheat-sheet</a>.
+   </div>
+</div>

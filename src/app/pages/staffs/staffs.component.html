@@ -1,0 +1,159 @@
+<div class="overflow-x-auto custom-scroll h-full">
+    <div class="mx-auto p-12 w-table">
+        <div class="grid grid-cols-10 barlow text-base">
+            <div class="col-start-1">
+                <p class="fs-32-px barlow-condensed-bold default-text-color whitespace-no-wrap">STAFFS</p>
+                <span class="text-gray-700 fs-16-px whitespace-no-wrap">You have <span class="text-teal-700 font-bold">{{ items && items.total_count ? items.total_count : '0' }}</span> <span *ngIf="items && items.total_count > 1"> staffs</span> <span *ngIf="items && items.total_count <= 1"> staff</span><span *ngIf="deactivated"> and <span class="text-red-600 font-bold">{{ deactivated && deactivated.total_count ? deactivated.total_count : 0 }}</span> deactivated account/s</span></span>
+            </div>
+            <div class="col-start-12 flex space-x-4">
+                <button *ngIf="user && user.user_role_id == 1" class="whitespace-no-wrap custom-btn btn-main-pink items-center px-6 py-4 focus:outline-none" [routerLink]="[ '/admin/staff-add/' ]">
+                    <i class="fas fa-plus mr-2"></i>
+                    <span class="text-base">Add new staff</span>
+                </button>
+                <button class="whitespace-no-wrap custom-btn btn-bg-pink items-center px-5 py-4 focus:outline-none" [routerLink]="[ '/admin/deactivated-accounts/' + 2 ]">
+                    <i class="far fa-folder mr-2"></i>
+                    <span class="text-base">View deactivated accounts</span>
+                </button>
+            </div>
+        </div>
+        <div class="bg-white rounded-lg p-8 mt-12 barlow text-base">
+            <div class="flex justify-between">
+                <div class="">
+                    <input type="text" class="search-input text-base w-350-px rounded-md tracking-wide px-3 py-4 border border-gray-400 placeholder-gray-800 focus:outline-none pr-12" [(ngModel)]="search" (keyup)="searchKeyword($event)" placeholder="Search">
+                    <img class="search-icon" src="/assets/images/icon/search_24px.png">
+                </div>
+                <div class="">
+                    <!-- <span class="text-base text-gray-500 p-3">Sort by:</span>
+                    <mat-select class="text-base flex w-160-px pr-4 py-4 placeholder-black" placeholder="Old added">
+                        <mat-option *ngFor="let sort of sortTypes" [value]="sort.type" (click)="clickedStatus(sort.type)">{{ sort.name }}</mat-option> 
+                    </mat-select>-->
+
+                    <div #t2="matMenuTrigger" #select2 [matMenuTriggerFor]="location_select"
+                        class="border border-gray-400 rounded-md py-3 pl-0 pr-3 minw-250-px flex justify-between items-center h-55-px">
+                        <span class="barlow text-black text-base font-lg p-5" *ngIf="!type_name">Sort by: <strong>All</strong></span>
+                        <span class="barlow text-black text-base font-lg p-5" *ngIf="type_name">Sort by: <strong>{{ type_name | titlecase }}</strong></span>
+                        <i class="fas fa-caret-down"></i>
+                    </div>
+                    <mat-menu class="w-full sports-menu" #location_select="matMenu">
+                        <button mat-menu-item class="tracking-wide focus:outline-none barlow hover:text-teal-800 hover:bg-teal-300 w-235-px" (click)="clickedStatus(null)">
+                            <strong>All</strong> 
+                        </button>
+                        <div class="w-full barlow relative flex items-center justify-end text-base" *ngFor="let sort of sortTypes">
+                            <button mat-menu-item class="tracking-wide focus:outline-none barlow hover:text-teal-800 hover:bg-teal-300 w-235-px" (click)="clickedStatus(sort.type, sort.name)">
+                                <strong>{{ sort.name | titlecase }}</strong> 
+                            </button>
+                        </div>
+                    </mat-menu>
+                </div>
+            </div>
+            <div class="data-table mt-12">
+                <table class="w-full">
+                    <thead>
+                        <tr>
+                            <ng-container *ngFor="let th of ths; let i = index">
+                                <th class="text-left barlow">
+                                    {{ th.label }}
+                                </th>
+                            </ng-container>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <ng-container *ngIf="staffs && !isLoading">
+                            <tr class="cursor-pointer focus:outline-none hover:bg-gray-200" *ngFor="let staff of staffs" [routerLink]="[ '/admin/staffs/staffs-profile/' + staff.user_id ]">
+                                <td class="text-teal-600">{{ staff.user_id }}</td>
+                                <td>
+                                    <div class="flex items-center">
+                                        <img style="margin-right: 10px;" class="focus:outline-none w-40-px h-40-px rounded-full profile-avatar" [src]="staff.profile_pic_path ? staff.profile_pic_path : '/assets/images/default_avatar.png'"> 
+                                        {{ staff.first_name }} {{ staff.last_name }} 
+                                    </div>
+                                </td>
+                                <td *ngIf="staff.users_user_role_id == 1">Admin</td>
+                                <td *ngIf="staff.users_user_role_id == 2">Staff</td>
+                                <td *ngIf="staff.users_user_role_id == 3">Athlete</td>
+                                <td *ngIf="staff.users_user_role_id == 4">Viewer</td>
+                                <td>{{ staff.users_email }}</td>
+                            </tr>
+                        </ng-container>
+                        <ng-container *ngIf="isLoading">
+                            <ng-container *ngFor="let item of [1,2,3,4]">
+                                <tr>
+                                    <td>
+                                        <div class="w-full h-15-px">
+                                            <app-loader [border_radius_class]="'rounded-lg'" [additional_class]=""></app-loader>
+                                        </div>
+                                    </td>
+                                    <td>
+                                        <div class="w-full h-15-px">
+                                            <app-loader [border_radius_class]="'rounded-lg'" [additional_class]=""></app-loader>
+                                        </div>
+                                    </td>
+                                    <td>
+                                        <div class="w-full h-15-px">
+                                            <app-loader [border_radius_class]="'rounded-lg'" [additional_class]=""></app-loader>
+                                        </div>
+                                    </td>
+                                    <td>
+                                        <div class="w-full h-15-px">
+                                            <app-loader [border_radius_class]="'rounded-lg'" [additional_class]=""></app-loader>
+                                        </div>
+                                    </td>
+                                </tr>
+                            </ng-container>
+                        </ng-container>
+                    </tbody>
+                </table>
+            </div>
+            <div class="flex justify-center items-center h-400-px default-text-color" *ngIf="!staffs && !isLoading">
+                <div>
+                    <div class="flex justify-center">
+                        <svg width="80" height="80" viewBox="0 0 80 80" fill="none" xmlns="http://www.w3.org/2000/svg">
+                            <path d="M52.413 56.5527V46.8982H27.5869V56.5527L40 67.5865L52.413 56.5527Z" fill="#B9B9B9"/>
+                            <path d="M71.6068 61.0688L54.5399 57.0531C54.2821 56.9924 54.0451 56.8895 53.8232 56.7646L40 64.8282L26.7159 56.3746C26.372 56.6984 25.9451 56.939 25.4602 57.0532L8.3933 61.069C5.90113 61.6554 4.13989 63.8791 4.13989 66.4393V77.2414C4.13989 78.765 5.37488 79.9998 6.89831 79.9998H73.1014C74.625 79.9998 75.8598 78.7648 75.8598 77.2414V66.4393C75.8601 63.879 74.0989 61.6551 71.6068 61.0688Z" fill="#F2F2F2"/>
+                            <path d="M27.5869 46.8982V57.0846C43.224 62.7184 52.413 48.6182 52.413 48.6182V46.8981H27.5869V46.8982Z" fill="#A7A7A7"/>
+                            <path d="M22.0701 15.176L23.2719 41.6177C23.3841 44.0879 24.5954 46.3786 26.5735 47.8622L32.2763 52.1394C33.7088 53.2136 35.4509 53.7945 37.2415 53.7945H42.7585C44.5492 53.7945 46.2913 53.2138 47.7238 52.1394L53.4266 47.8622C55.4047 46.3785 56.616 44.088 56.7281 41.6177L57.93 15.176C57.9299 15.176 22.0701 15.176 22.0701 15.176Z" fill="#C8C8C8"/>
+                            <path d="M35.8625 20.6929C41.3795 20.6929 49.6548 19.3137 51.6176 15.1759H22.0701L23.2719 41.6176C23.3841 44.0878 24.5954 46.3784 26.5736 47.8621L32.2764 52.1393C33.7089 53.2135 35.4511 53.7944 37.2417 53.7944H40.0001C37.2417 53.7944 31.7247 48.2774 31.7247 41.3814C31.7247 38.0086 31.7247 28.9683 31.7247 24.8305C31.7247 23.4513 33.1039 20.6929 35.8625 20.6929Z" fill="#B9B9B9"/>
+                            <path d="M14.2654 71.0487L5.3281 63.0203C4.5792 63.9685 4.14014 65.1618 4.14014 66.4393V77.2415C4.14014 78.765 5.37513 79.9999 6.89856 79.9999H16.5532V76.179C16.553 74.2216 15.7213 72.3565 14.2654 71.0487Z" fill="#EAEAEA"/>
+                            <path d="M65.7346 71.0487L74.6719 63.0203C75.4208 63.9685 75.8598 65.1618 75.8598 66.4393V77.2415C75.8598 78.765 74.6248 79.9999 73.1014 79.9999H63.4468V76.179C63.4468 74.2216 64.2785 72.3565 65.7346 71.0487Z" fill="#EAEAEA"/>
+                            <path d="M43.4482 79.9998H36.552L37.414 67.5865H42.5862L43.4482 79.9998Z" fill="#5E5E5E"/>
+                            <path d="M43.4482 64.828H36.552V67.4238C36.552 68.2755 37.2423 68.9658 38.094 68.9658H41.906C42.7578 68.9658 43.4481 68.2755 43.4481 67.4238V64.828H43.4482Z" fill="#535353"/>
+                            <path d="M27.3933 53.4821L40.0001 64.8281C40.0001 64.8281 36.4695 66.6104 32.1127 70.2028C31.2139 70.9437 29.8544 70.6435 29.3724 69.5831L23.4495 56.5528L25.3232 53.7424C25.7894 53.0424 26.7682 52.9196 27.3933 53.4821Z" fill="#EAEAEA"/>
+                            <path d="M52.6068 53.4821L40 64.8281C40 64.8281 43.5306 66.6104 47.8875 70.2028C48.7862 70.9437 50.1457 70.6435 50.6277 69.5831L56.5507 56.5528L54.6769 53.7424C54.2105 53.0424 53.2318 52.9196 52.6068 53.4821Z" fill="#EAEAEA"/>
+                            <path d="M48.3616 6.03849L49.6545 15.1759C55.5568 16.3564 56.4075 25.6192 56.53 28.2648C56.5522 28.7449 56.7054 29.2085 56.9659 29.6124L59.2179 33.1058C59.2179 33.1058 58.4471 27.3302 61.9763 23.4512C61.9765 23.4512 63.1884 0.521488 48.3616 6.03849Z" fill="#5F5F5F"/>
+                            <path d="M60.6013 32.5178L59.0443 38.746C58.8598 39.4843 58.1966 40.002 57.4355 40.002C56.5991 40.002 55.8938 39.3793 55.7901 38.5495L54.9937 32.1792C54.7805 30.4741 56.1099 28.9681 57.8284 28.9681H57.8296C59.6883 28.9683 61.0521 30.7147 60.6013 32.5178Z" fill="#C8C8C8"/>
+                            <path d="M23.392 3.56743L25.432 4.96101C16.2084 11.771 17.9323 23.4514 17.9323 23.4514C20.6907 26.2098 20.6907 33.106 20.6907 33.106L23.4492 30.3476C23.4492 30.3476 22.3846 22.3792 27.5868 19.3137C32.4141 16.4691 36.638 17.9345 40.9481 17.9345C52.4991 17.9345 55.7318 13.5813 55.1715 8.2799C54.8815 5.53679 50.6874 -0.17724 40 0.00447782C35.6869 0.0777586 27.5871 1.38369 23.392 3.56743Z" fill="#545454"/>
+                            <path d="M22.5873 16.7276C22.5873 16.7276 21.1218 10.952 25.432 4.96106C16.2084 11.771 17.9323 23.4514 17.9323 23.4514C20.6907 26.2098 20.6907 33.1061 20.6907 33.1061L23.4492 30.3476C23.4492 30.3476 22.3846 22.3792 27.5868 19.3138C32.4141 16.4691 36.638 17.9346 40.9481 17.9346C42.8267 17.9346 44.4637 17.8088 45.9218 17.5932C37.0263 17.8913 31.7824 11.1531 22.5873 16.7276Z" fill="#494949"/>
+                            <path d="M19.3987 32.5178L20.9557 38.746C21.1403 39.4843 21.8034 40.002 22.5645 40.002C23.4009 40.002 24.1062 39.3793 24.2099 38.5495L25.0063 32.1792C25.2195 30.4741 23.8901 28.9681 22.1717 28.9681H22.1704C20.3117 28.9683 18.9479 30.7147 19.3987 32.5178Z" fill="#B9B9B9"/>
+                            <path d="M57.9301 77.2412H48.2754C47.5137 77.2412 46.8962 77.8587 46.8962 78.6204V79.9996H59.3093V78.6204C59.3093 77.8589 58.6916 77.2412 57.9301 77.2412Z" fill="#EAEAEA"/>
+                        </svg>
+                    </div>
+                        
+                    <div class="my-3 text-base text-center barlow-bold ">No staffs yet</div>
+                    <div class="text-base text-center barlow">You haven’t added any staffs yet.</div>
+                </div>                
+            </div>
+            <ng-container *ngIf="items && items.total_page > 1">
+                <div class="pr-3 flex items-center justify-center table-pagination barlow mt-6" style="text-align: right;">
+                    <button class="page-btn barlow-bold {{ pagination.selected_page == 1  ? 'disable-page' : 'default-text-color' }}" style="white-space: nowrap;" (click) = "prevPage()" [disabled] = "pagination.selected_page == 1">
+                        Previous 
+                    </button> 
+                    <button class="page-btn " (click) = "prevPage()" [disabled] = "pagination.selected_page == 1">
+                        <i class="px-2 fa fa-angle-double-left mr-2 angle-icon {{ pagination.selected_page == 1  ? 'disable-svg' : 'btn-svg' }}"></i>
+                    </button>
+                    <span class="rounded-circle table-pagination page cursor-pointer" *ngIf="items.current_page > 2 && items.current_page != 1 && items.current_page != 2" (click)="setPage(1)">1</span>
+                    <span *ngIf="items.current_page > 2 && items.current_page != 1 && items.current_page != 2 && items.total_page > 4">...</span>
+                    <span class="rounded-circle table-pagination page cursor-pointer" *ngIf="items.current_page != 1" (click)="setPage(items.previous_page)">{{ items.previous_page }}</span>
+                    <span class="rounded-circle table-pagination page cursor-pointer active-page">{{ items.current_page }}</span>
+                    <span class="rounded-circle table-pagination page cursor-pointer" *ngIf="items.current_page < items.total_page" (click)="setPage(items.next_page)">{{ items.next_page }}</span>
+                    <span class="rounded-circle table-pagination page cursor-pointer" *ngIf="items.next_page+1 <= items.total_page && items.previous_page < items.next_page" (click)="setPage(items.next_page)">{{ items.next_page +1 }}</span>
+                    <span *ngIf="items.total_page > 4 && items.current_page + 1 < items.total_page">...</span>
+                    <span class="rounded-circle table-pagination page cursor-pointer" *ngIf="items.total_page > 4 && items.current_page + 1 < items.total_page" (click)="setPage(items.total_page)">{{ items.total_page }}</span>
+
+                    <button class="page-btn " style="white-space: nowrap;" (click)="nextPage()" [disabled] = "pagination.selected_page == items.total_page">
+                        <i class="px-2 fa fa-angle-double-right ml-2 angle-icon {{ pagination.selected_page == items.total_page  ? 'disable-svg' : 'btn-svg' }}"></i>
+                    </button>
+                    <button class="hover:text-gray-800 page-btn barlow-bold {{ pagination.selected_page == items.total_page  ? 'disable-page' : 'default-text-color' }}" (click)="nextPage()" [disabled]="pagination.selected_page == items.total_page">Next</button>
+                </div>
+            </ng-container>
+        </div>
+    </div>
+</div>

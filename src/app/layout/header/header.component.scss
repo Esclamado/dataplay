@@ -1,0 +1,87 @@
+::ng-deep{
+    .mat-menu-content {
+        padding: 0px !important;
+        background: none !important;
+        // width: 450px;
+        // min-width: 450px;
+    }
+    div.header-menu { 
+            background: none !important;
+            box-shadow: none !important;
+            transform: translateX(16px) !important;
+    }
+    .custom-menu-container{
+        right: 18px;
+        transform: rotate(45deg) translateX(-7px);
+    }
+
+    .custom-menu-container-notif{
+      right: 18px;
+      z-index: 100;
+      transform: rotate(
+      45deg
+      ) translateX(-7px);
+  }
+    .notif-menu{
+        transform: translateX(26px);
+        &.mat-menu-panel{
+            max-width: 500px !important;
+            overflow: visible !important;
+            margin-top: 33px !important;  
+        }
+        .mat-menu-item {
+            max-width: 500px !important;
+        }
+    }
+}
+
+.bgUnread{
+    background-color: #E5E7F0;
+}
+.spinner {
+    margin: 5px auto 0;
+    width: 70px;
+    text-align: center;
+  }
+  
+  .spinner > div {
+    width: 7px;
+    height: 7px;
+    background-color:teal;
+    margin-right: 5px;
+  
+    border-radius: 100%;
+    display: inline-block;
+    -webkit-animation: sk-bouncedelay 1.4s infinite ease-in-out both;
+    animation: sk-bouncedelay 1.4s infinite ease-in-out both;
+  }
+  
+  .spinner .bounce1 {
+    -webkit-animation-delay: -0.32s;
+    animation-delay: -0.32s;
+  }
+  
+  .spinner .bounce2 {
+    -webkit-animation-delay: -0.16s;
+    animation-delay: -0.16s;
+  }
+  
+  @-webkit-keyframes sk-bouncedelay {
+    0%, 80%, 100% { -webkit-transform: scale(0) }
+    40% { -webkit-transform: scale(1.0) }
+  }
+  
+  @keyframes sk-bouncedelay {
+    0%, 80%, 100% { 
+      -webkit-transform: scale(0);
+      transform: scale(0);
+    } 40% { 
+      -webkit-transform: scale(1.0);
+      transform: scale(1.0);
+    }
+  }
+
+  .notif-text-color{
+    color:  #080E2D
+  }
+

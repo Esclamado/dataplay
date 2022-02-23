@@ -1,0 +1,93 @@
+<div class="mx-auto">
+    <div class="p-8 barlow text-base mt-2" *ngIf="followers">
+        <div class="data-table">
+            <table class="w-full">
+                <thead>
+                    <tr>
+                        <ng-container *ngFor="let th of ths; let i = index">
+                            <th class="text-left barlow whitespace-no-wrap">
+                                {{ th.label }}
+                            </th>
+                        </ng-container>
+                    </tr>
+                </thead>
+                <tbody>
+                    <ng-container *ngIf="!isLoading">
+                        <tr class="" *ngFor="let follower of followers">
+                            <td>
+                                <div class="flex space-x-3 items-center">
+                                    <img class="focus:outline-none w-40-px h-40-px rounded-full" [src]="follower.profile_pic_path ? follower.profile_pic_path : '/assets/images/default_avatar.png'"> 
+                                    <span>
+                                        {{ follower.follower_full_name }}
+                                    </span>
+                                    <img class="" *ngIf="follower.verification_status == 1" src="/assets/images/icon/check_badge.png">
+                                </div>
+                            </td>
+                            <td>{{ follower.hasOwnProperty('follower_main_sport')  ? follower.follower_main_sport: 'N/A'  }}</td>
+                            <td>{{ follower.follower_location == ', ' ? 'N/A' : follower.follower_location | titlecase }}</td>
+                            <td><img *ngIf="follower.user_role == 3" class="" src="/assets/images/icon/athlete_badge.png">
+                                <img *ngIf="follower.user_role == 4" class="" src="/assets/images/icon/fan_badge.png">
+                            </td>
+                        </tr>
+                    </ng-container>
+                    <ng-container *ngIf="isLoading">
+                        <ng-container *ngFor="let item of [1,2,3,4]">
+                            <tr>
+                                <td>
+                                    <div class="w-full h-15-px">
+                                        <app-loader [border_radius_class]="'rounded-lg'" [additional_class]=""></app-loader>
+                                    </div>
+                                </td>
+                                <td>
+                                    <div class="w-full h-15-px">
+                                        <app-loader [border_radius_class]="'rounded-lg'" [additional_class]=""></app-loader>
+                                    </div>
+                                </td>
+                                <td>
+                                    <div class="w-full h-15-px">
+                                        <app-loader [border_radius_class]="'rounded-lg'" [additional_class]=""></app-loader>
+                                    </div>
+                                </td>
+                                <td>
+                                    <div class="w-full h-15-px">
+                                        <app-loader [border_radius_class]="'rounded-lg'" [additional_class]=""></app-loader>
+                                    </div>
+                                </td>
+                            </tr>
+                        </ng-container>
+                    </ng-container>
+                </tbody>
+            </table>
+        </div>
+    </div>
+    <div class="text-center border p-10 barlow text-base" *ngIf="!followers && !isLoading">
+        <td class="py-12 text-base flex flex-col items-center">
+            <img class="" src="/assets/images/empty_state.png">
+            <span class="p-4 font-bold">No follower yet.</span>
+            <span>This user doesn’t have any follower yet.</span>
+        </td>
+    </div>
+    <ng-container *ngIf="items && items.total_page > 1">
+        <div class="pr-3 flex items-center justify-center table-pagination barlow mt-6" style="text-align: right;">
+            <button class="page-btn barlow-bold {{ pagination.selected_page == 1  ? 'disable-page' : 'default-text-color' }}" style="white-space: nowrap;" (click) = "prevPage()" [disabled] = "pagination.selected_page == 1">
+                Previous 
+            </button> 
+            <button class="page-btn " (click) = "prevPage()" [disabled] = "pagination.selected_page == 1">
+                <i class="px-2 fa fa-angle-double-left mr-2 angle-icon {{ pagination.selected_page == 1  ? 'disable-svg' : 'btn-svg' }}"></i>
+            </button>
+            <span class="rounded-circle table-pagination page cursor-pointer" *ngIf="items.current_page > 2 && items.current_page != 1 && items.current_page != 2" (click)="setPage(1)">1</span>
+            <span *ngIf="items.current_page > 2 && items.current_page != 1 && items.current_page != 2 && items.total_page > 4">...</span>
+            <span class="rounded-circle table-pagination page cursor-pointer" *ngIf="items.current_page != 1" (click)="setPage(items.previous_page)">{{ items.previous_page }}</span>
+            <span class="rounded-circle table-pagination page cursor-pointer active-page">{{ items.current_page }}</span>
+            <span class="rounded-circle table-pagination page cursor-pointer" *ngIf="items.current_page < items.total_page" (click)="setPage(items.next_page)">{{ items.next_page }}</span>
+            <span class="rounded-circle table-pagination page cursor-pointer" *ngIf="items.next_page+1 <= items.total_page && items.previous_page < items.next_page" (click)="setPage(items.next_page)">{{ items.next_page +1 }}</span>
+            <span *ngIf="items.total_page > 4 && items.current_page + 1 < items.total_page">...</span>
+            <span class="rounded-circle table-pagination page cursor-pointer" *ngIf="items.total_page > 4 && items.current_page + 1 < items.total_page" (click)="setPage(items.total_page)">{{ items.total_page }}</span>
+
+            <button class="page-btn " style="white-space: nowrap;" (click)="nextPage()" [disabled] = "pagination.selected_page == items.total_page">
+                <i class="px-2 fa fa-angle-double-right ml-2 angle-icon {{ pagination.selected_page == items.total_page  ? 'disable-svg' : 'btn-svg' }}"></i>
+            </button>
+            <button class="hover:text-gray-800 page-btn barlow-bold {{ pagination.selected_page == items.total_page  ? 'disable-page' : 'default-text-color' }}" (click)="nextPage()" [disabled]="pagination.selected_page == items.total_page">Next</button>
+        </div>
+    </ng-container>
+</div>

@@ -1,0 +1,63 @@
+<div class="barlow w-full default-text-color" *ngIf="sports && !requestingSports">
+    <div class="bg-white rounded-lg shadow-bottom h-800-px w-full text-base">
+        <div class="border-b border-gray-200 p-8">
+            <span class="text-xl barlow-bold">Sports with most athletes</span>
+        </div>
+        <div class="pb-8 px-8 pt-5">
+            <table class="w-full">
+                <tr class="text-sm first" style="font-weight: 600;">
+                  <td colspan="2" class="pl-3 pb-5">Sports</td>
+                  <td colspan="2" class="pb-5 flex justify-end pr-3">No. of athletes</td>
+                </tr>
+                <ng-container *ngFor="let item of sports"> 
+                    <tr> 
+                        <td colspan="2" class="pl-3 py-5">{{ item.sport_name }}</td>
+                        <td colspan="2" class="py-5 last flex justify-end" style="padding-right: 50px;">{{ item.number_of_athletes  > 999 ? convertToK(item.number_of_athletes) : item.number_of_athletes }}</td>
+                    </tr>
+                </ng-container>
+              </table>
+        </div>
+    </div>
+</div>
+
+<div class="barlow w-full default-text-color" *ngIf="province && !requestingProvince">
+    <div class="bg-white rounded-lg shadow-bottom h-800-px w-full text-base">
+        <div class="border-b border-gray-200 p-8">
+            <span class="text-xl barlow-bold">Provinces with most athletes</span>
+        </div>
+        <div class="pb-8 px-8 pt-5">
+            <table class="w-full">
+                <tr class="text-sm first" style="font-weight: 600;">
+                    <td colspan="2" class="pl-3 pb-5" >Province</td>
+                    <td colspan="2" class="pb-5 flex justify-end pr-3">No. of athletes</td>
+                </tr>
+                <ng-container *ngFor="let item of province"> 
+                    <tr> 
+                        <td colspan="2" class="pl-3 py-5">{{ item.province | titlecase }}</td>
+                        <td colspan="2"class="py-5 last flex justify-end pr-3" style="padding-right: 50px;">{{ item.number_of_athletes  > 999 ? convertToK(item.number_of_athletes) : item.number_of_athletes }}</td>
+                    </tr>
+                </ng-container>
+                </table>
+        </div>
+    </div>
+</div>
+
+<ng-container *ngIf="requestingSports">
+    <div class="w-full h-800-px">
+        <app-loader [border_radius_class]="'rounded-lg'"></app-loader>
+    </div>
+</ng-container>
+<ng-container *ngIf="requestingProvince">
+    <div class="w-full h-800-px">
+        <app-loader [border_radius_class]="'rounded-lg'"></app-loader>
+    </div>
+</ng-container>
+
+
+
+
+
+
+
+
+

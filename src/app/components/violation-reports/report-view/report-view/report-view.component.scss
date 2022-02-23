@@ -1,0 +1,54 @@
+.bg{
+    &.bg-pending{
+        background: #E0E1E1;
+        color: #525a65;
+    }
+    &.bg-checked{
+        background: #d2f7c9;
+        color: #32a419;
+    }
+    &.bg-deleted{
+        background: #f9dcdf;
+        color: #be1e2d;
+    }
+}
+.comment-bg{
+    background: #E5E7F0;
+}
+.comment-bg-report{
+    background: #f9dce1;
+}
+.comment-down{
+    transform: translateY(2px);
+}
+.btn-back{
+    border: 2px solid #525A65;
+    border-radius: 4px;
+    background-color: transparent;
+    color: #525A65;
+    &:hover{
+        i, svg path, span{
+            fill:white!important;
+            color:white!important;
+        }
+        border: 2px solid white;
+        color: white !important;
+        background: gray
+    }
+}
+a{
+    text-decoration: none;
+    &:focus{
+        text-decoration: none;
+    }
+}
+.comment-pic{
+    width: 250px;
+    height: 200px;
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+}
+.mh{
+    max-height: 625px;
+}

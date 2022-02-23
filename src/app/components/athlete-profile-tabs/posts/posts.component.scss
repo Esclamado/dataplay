@@ -1,0 +1,21 @@
+::ng-deep{
+    .custom-scroll,.mat-tab-body-content {
+        &::-webkit-scrollbar {
+            width: 8px !important;
+        }
+    
+        /* Track */
+        &::-webkit-scrollbar-track {
+            background: #E0E1E1;
+        }
+    
+        /* Handle */
+        &::-webkit-scrollbar-thumb {
+            pointer-events: all !important;
+            background:#2a2c30; 
+            box-shadow: 1px 1px 8px rgba(0, 0, 0, 0.1);
+        }
+        scrollbar-width: 8px;
+    }
+
+}

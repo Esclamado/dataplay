@@ -1,0 +1,40 @@
+<div class="w-full h-full z-20 flex flex-col bg-blue-default barlow"  (mouseleave)="showImage($event,false)" (mouseenter)="showImage($event,true)">
+    <div class="w-full h-65-px  flex items-center justify-center">
+        <img *ngIf="expanded && showText" src="../../../assets/images/logo/navbar-logo.png" alt="">
+        <img class="h-40-px" *ngIf=" !showText"  src="../../../assets/images/logo/logoonly.png" alt="">
+    </div>
+
+    <ul class="w-full ml-0 side-nav-container hide-scrollbar" >
+        <li class="py-2 flex justify-start items-stretch" *ngFor="let menu of sidenav_items">
+           
+            <div  routerLink="{{ menu.route }}" class="w-4-px custom-left-border invisible" routerLinkActive="show" ></div>
+            <a routerLink="{{ menu.route }}" class="no-underline routes whitespace-no-wrap py-4 w-full h-full flex flex-row justify-start items-center text-white text-base"  [ngClass]="{'justify-start pl-6': expanded, 'justify-center': !expanded}" routerLinkActive="custom-bg fw-600">
+                <div class="w-31-px flex flex-row justify-center items-center">
+                    <ng-container *ngIf="menu.route != 'admin/content-management'; else cms">
+                        <span [ngClass]="{'flip-horizontally': menu.route =='admin/staffs' && router.isActive(menu.route,false), 'transform rotate-45': menu.route =='admin/athletes' }" class="{{ router.isActive(menu.route,false) ? 'material-icons-round' : 'material-icons-outlined' }}">{{ menu.icon }}</span>
+                    </ng-container>
+                    <ng-template #cms>
+                        <svg  width="22" height="20" viewBox="0 0 22 20" fill="none" xmlns="http://www.w3.org/2000/svg">
+                            <path *ngIf="router.isActive(menu.route,false); else fillwhite"
+                                d="M20 0H2C0.9 0 0 0.9 0 2V14C0 15.1 0.9 16 2 16H9V18H7V20H15V18H13V16H20C21.1 16 22 15.1 22 14V2C22 0.9 21.1 0 20 0Z"
+                                fill="white" />
+                            <ng-template #fillwhite>
+                                <path  fill-rule="evenodd" clip-rule="evenodd"
+                                    d="M2 0H20C21.1 0 22 0.9 22 2V14C22 15.1 21.1 16 20 16H13V18H15V20H7V18H9V16H2C0.9 16 0 15.1 0 14V2C0 0.9 0.9 0 2 0ZM2 14H20V2H2V14Z"
+                                    fill="white" />
+                            </ng-template>
+                        </svg>
+
+                    </ng-template>
+                    <!-- <i class="{{ menu.icon_class  }}" [ngClass]="{'custom-margin-y' : !showText}"></i> -->
+
+                    <!-- <span class="material-icons">{{ menu.icon }}</span> -->
+                </div>
+                <span class="ml-3 " *ngIf="showText" [ngClass]="{'pointer-events-none': !showText}">{{ menu.title }}</span>
+                <!-- {{ router.url }} {{ menu.route }} -->
+             
+            </a>
+        </li>
+
+    </ul>
+</div>

@@ -1,0 +1,44 @@
+<ngx-smart-modal 
+#reportsModal 
+identifier="reportsModal" 
+customClass="nsm-centered report"
+(onOpen)="getdata()"
+(onClose)="reset()" 
+(onAnyCloseEvent)="reset()">
+<div *ngIf="reportType" class="">
+    <div class="bg-white w-400-px h-450-px rounded-lg p-6">
+        <div class="flex flex-col mt-3">
+            <span class="barlow-bold text-lg font-lg default-text-color" *ngIf="detail">Delete {{ detail.report_type == 1 ? 'post' : 'comment'}}</span>
+            <div class="mt-5" *ngIf="detail">
+                <div class="barlow text-base font-medium default-text-color">Please select a problem to continue.  </div>
+                <div class="barlow text-base font-medium default-text-color">You can delete the {{ detail.report_type == 1 ? 'post' : 'comment'}} after selecting a problem.</div>
+            </div>
+        </div>
+        <div class="flex flex-wrap mt-5">
+            <div class="mr-3 mb-3" *ngFor="let report of reportType; let i = index">
+                <button class="custom-btn bg-teal-100 px-5 p-2 hover:bg-teal-200 focus:outline-none" 
+                [ngClass]="{'picked': is_picked && index_global == i}" 
+                (click)="selectedReport(report.name, i)">
+                    <span class="text-sm text-teal-600 hover:text-teal-700 focus:text-white">{{ report.name }}</span>
+                </button>
+            </div>
+        </div>
+        <div class="" *ngIf="others">
+            <input type="text" class="appearance-none rounded w-full py-3 px-3 mt-3 mb-3" placeholder="   Please specify ..." style="background-color: #e6e9e9;" (keyup.enter)="submitReport()" name="otherReport" [(ngModel)]="otherReport">
+        </div>
+        <div class="flex justify-end items-end {{others ? '' : 'mt-8'}}">
+            <button class="mr-8 py-3 flex items-center px-6 focus:outline-none border-gray-500 border-2 rounded text-gray-600 hover:bg-gray-200 btn-h" (click)="reset()">Cancel</button>
+            <ng-container *ngIf="!isLoading">
+                <button class="w-173-px custom-btn py-3 px-6 focus:outline-none {{ !type  ? 'btn-disabled' : 'btn-main-pink' }}" (click)="main_action()" [disabled]="(requesting && spinner) && !type">
+                    <span class="text-base mt-1">Delete {{ detail.report_type == 1 ? 'post' : 'comment'}}</span>
+                </button>
+            </ng-container>
+            <ng-container *ngIf="isLoading">
+                <button class="custom-btn btn-main-pink w-173-px self-stretch inline-flex items-center justify-center  py-3 px-6 focus:outline-none" [disabled]="requesting && spinner">
+                    <mat-spinner class="white-loader"  diameter="20" color="accent" mode="indeterminate"></mat-spinner>
+                </button>
+            </ng-container>
+        </div>
+    </div>
+</div>
+</ngx-smart-modal>

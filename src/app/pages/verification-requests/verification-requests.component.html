@@ -1,0 +1,209 @@
+<div class="overflow-x-auto custom-scroll h-full">
+    <div class="mx-auto p-12 w-table">
+        <div class="grid grid-cols-10 barlow text-base">
+            <div class="col-span-10">
+                <div class="fs-32-px barlow-condensed-bold default-text-color mb-5">VERIFICATION REQUEST</div>
+                <span class="text-gray-700 fs-16-px">You have
+                    <span class="text-teal-700 font-bold" *ngIf="items">
+                        <!-- <ng-container *ngIf="items.total_count">
+{{ items.total_count }}
+</ng-container>
+<ng-container *ngIf="!items.total_count">
+0
+</ng-container> -->
+                        {{ items.total_count > 0 ? items.total_count : '0' }}
+                    </span>
+                    pending request
+                </span>
+            </div>
+
+        </div>
+
+        <div class="bg-white rounded-lg p-8 mt-12">
+            <div class="flex justify-between">
+                <div class="">
+                    <input type="text"
+                        class="search-input text-base w-350-px rounded-md tracking-wide pl-3 py-4 border border-gray-400 placeholder-gray-600 focus:outline-none relative"
+                        [(ngModel)]="search" (keyup)="searchKeyword($event)" placeholder="Search">
+                    <img class="search-icon" src="/assets/images/icon/search_24px.png">
+                </div>
+                <div class="flex items-center space-x-3 cursor-pointer">
+                    <span class="text-base text-gray-700 p-3 pl-0">Filter by:</span>
+                    <div #t2="matMenuTrigger" #select2 [matMenuTriggerFor]="sport_select"
+                        class="border border-gray-400 rounded-md py-3 pl-0 pr-3 minw-250-px flex justify-between items-center h-55-px">
+                        <span class="barlow text-black text-base font-lg p-5" *ngIf="!type_value">Sports: <strong>All</strong></span>
+                        <span class="barlow text-black text-base font-lg p-5" *ngIf="type_value">Sports: <strong>{{ type_value }}</strong></span>
+                        <i class="fas fa-caret-down"></i>
+                    </div>
+                    <mat-menu class="w-full sports-menu" #sport_select="matMenu">
+                        <button mat-menu-item class="tracking-wide focus:outline-none barlow hover:text-teal-800 hover:bg-teal-300 w-235-px" (click)="clickedStatus(null)">
+                            <strong>All</strong> 
+                        </button>
+                        <div class="w-full barlow relative flex items-center justify-end text-base" *ngFor="let sort of sport_list">
+                            <button mat-menu-item class="tracking-wide focus:outline-none barlow hover:text-teal-800 hover:bg-teal-300 w-235-px" (click)="clickedStatus(sort.sport_name)">
+                                <strong>{{ sort.sport_name | titlecase }}</strong> 
+                            </button>
+                        </div>
+                    </mat-menu>
+                </div>
+            </div>
+            <div class="data-table mt-12 barlow text-base">
+                <table class="w-full">
+                    <thead>
+                        <tr>
+                            <ng-container *ngFor="let th of ths; let i = index">
+                                <th class="text-left barlow">
+                                    {{ th.label }}
+                                </th>
+                            </ng-container>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <ng-container *ngIf="verifyListing && !isLoading">
+                            <tr class="cursor-pointer focus:outline-none hover:bg-gray-200"
+                                *ngFor="let item of verifyListing" [routerLink]="[ '/admin/athletes/' + item.user_id ]">
+                                <td>{{ item.date_of_request | transformDate: '': 'MM/DD/yyyy, hh:mm A' }}</td>
+                                <td [innerHtml]="render(item.name)" class="justify-start flex"></td>
+                                <td>{{ item.sport }}</td>
+                                <td>{{ item.hometown }}</td>
+                            </tr>
+                        </ng-container>
+                        <ng-container *ngIf="isLoading">
+                            <ng-container *ngFor="let item of [1,2,3,4]">
+                                <tr>
+                                    <td>
+                                        <div class="w-full h-15-px">
+                                            <app-loader [border_radius_class]="'rounded-lg'" [additional_class]="">
+                                            </app-loader>
+                                        </div>
+                                    </td>
+                                    <td>
+                                        <div class="w-full h-15-px">
+                                            <app-loader [border_radius_class]="'rounded-lg'" [additional_class]="">
+                                            </app-loader>
+                                        </div>
+                                    </td>
+                                    <td>
+                                        <div class="w-full h-15-px">
+                                            <app-loader [border_radius_class]="'rounded-lg'" [additional_class]="">
+                                            </app-loader>
+                                        </div>
+                                    </td>
+                                    <td>
+                                        <div class="w-full h-15-px">
+                                            <app-loader [border_radius_class]="'rounded-lg'" [additional_class]="">
+                                            </app-loader>
+                                        </div>
+                                    </td>
+                                </tr>
+                            </ng-container>
+                        </ng-container>
+                    </tbody>
+                </table>
+            </div>
+            <div class="flex justify-center items-center h-400-px default-text-color"
+                *ngIf="!verifyListing && !isLoading">
+                <div>
+                    <div class="flex justify-center">
+                        <svg width="70" height="80" viewBox="0 0 70 80" fill="none" xmlns="http://www.w3.org/2000/svg"
+                            class="text-center">
+                            <path
+                                d="M47.6574 77.0448V9.53719C47.6574 7.905 46.3343 6.58203 44.7021 6.58203H3.43025C1.79807 6.58203 0.475098 7.90516 0.475098 9.53719V77.0448C0.475098 78.677 1.79822 80 3.43025 80H44.7023C46.3343 80 47.6574 78.6769 47.6574 77.0448Z"
+                                fill="#7E868F" />
+                            <path
+                                d="M54.3914 6.58188H44.501C46.1332 6.58188 47.4563 7.905 47.4563 9.53703V77.0447C47.4563 78.6769 46.1332 79.9998 44.501 79.9998H54.3914C56.0236 79.9998 57.3468 78.6767 57.3468 77.0447V9.53719C57.3468 7.905 56.0236 6.58188 54.3914 6.58188Z"
+                                fill="#525A65" />
+                            <path
+                                d="M5.30518 74.1134V12.4685C5.30518 11.885 5.77814 11.4122 6.36142 11.4122H51.4602C52.0436 11.4122 52.5164 11.8852 52.5164 12.4685V74.1134C52.5164 74.6969 52.0435 75.1697 51.4602 75.1697H6.36142C5.77799 75.1697 5.30518 74.6969 5.30518 74.1134Z"
+                                fill="#F5F5F5" />
+                            <path
+                                d="M51.4603 11.4122H41.5698C42.1533 11.4122 42.6261 11.8852 42.6261 12.4685V74.1134C42.6261 74.6969 42.1531 75.1697 41.5698 75.1697H51.4603C52.0437 75.1697 52.5165 74.6967 52.5165 74.1134V12.4685C52.5165 11.8852 52.0437 11.4122 51.4603 11.4122Z"
+                                fill="#EAEAEA" />
+                            <path
+                                d="M35.1892 3.67781V2.12203C35.1892 0.950156 34.2392 0 33.0672 0H24.7551C23.5831 0 22.6331 0.950156 22.6331 2.12203V3.67781C22.6331 4.15703 22.2445 4.54562 21.7653 4.54562H18.3059C17.1551 4.54562 16.2222 5.47859 16.2222 6.62938V11.4122H41.6001V6.62938C41.6001 5.47859 40.6672 4.54562 39.5164 4.54562H36.057C35.5778 4.54562 35.1892 4.15703 35.1892 3.67781Z"
+                                fill="#C2D0DA" />
+                            <path
+                                d="M11.4492 28.5612V19.2584C11.4492 18.2278 12.2848 17.3922 13.3155 17.3922H22.6183C23.6489 17.3922 24.4845 18.2278 24.4845 19.2584V28.5612C24.4845 29.5919 23.6489 30.4275 22.6183 30.4275H13.3155C12.2847 30.4275 11.4492 29.5919 11.4492 28.5612Z"
+                                fill="#525A65" />
+                            <path
+                                d="M11.4492 47.9425V38.6397C11.4492 37.6091 12.2848 36.7734 13.3155 36.7734H22.6183C23.6489 36.7734 24.4845 37.6091 24.4845 38.6397V47.9425C24.4845 48.9731 23.6489 49.8088 22.6183 49.8088H13.3155C12.2847 49.8088 11.4492 48.9731 11.4492 47.9425Z"
+                                fill="#525A65" />
+                            <path
+                                d="M11.4492 67.3236V58.0208C11.4492 56.9901 12.2848 56.1545 13.3155 56.1545H22.6183C23.6489 56.1545 24.4845 56.9901 24.4845 58.0208V67.3236C24.4845 68.3542 23.6489 69.1898 22.6183 69.1898H13.3155C12.2847 69.1898 11.4492 68.3544 11.4492 67.3236Z"
+                                fill="#525A65" />
+                            <path
+                                d="M17.1792 27.2412C17.1778 27.2412 17.1765 27.2412 17.1751 27.2412C16.6421 27.24 16.1367 26.9818 15.8228 26.5511L14.4131 24.6151C14.0206 24.0761 14.1393 23.3209 14.6784 22.9284C15.2174 22.5361 15.9726 22.6548 16.3649 23.1937L17.1823 24.3164L19.5721 21.0695C19.9674 20.5325 20.7231 20.4178 21.2599 20.8129C21.797 21.2081 21.9118 21.9639 21.5165 22.5009L18.5303 26.5579C18.2154 26.9859 17.7104 27.2412 17.1792 27.2412Z"
+                                fill="#F6F9F9" />
+                            <path
+                                d="M17.179 47.0442C17.1774 47.0442 17.176 47.0442 17.1746 47.0442C16.6417 47.0428 16.1362 46.7848 15.8224 46.3538L14.4131 44.4181C14.0206 43.8791 14.1393 43.1239 14.6784 42.7314C15.2174 42.3391 15.9726 42.4578 16.3649 42.9967L17.1823 44.1194L19.5721 40.8725C19.9674 40.3356 20.7231 40.2208 21.2599 40.6159C21.797 41.0111 21.9118 41.7669 21.5165 42.3039L18.5303 46.3609C18.2154 46.7892 17.7104 47.0442 17.179 47.0442Z"
+                                fill="#F6F9F9" />
+                            <path
+                                d="M17.1794 66.0039C17.178 66.0039 17.1766 66.0039 17.1754 66.0037C16.6426 66.0025 16.1369 65.7445 15.8232 65.3139L14.4135 63.3776C14.021 62.8386 14.1399 62.0836 14.679 61.6911C15.2183 61.2986 15.9732 61.4176 16.3655 61.9565L17.1827 63.079L19.5727 59.8322C19.968 59.2953 20.7237 59.1804 21.2605 59.5756C21.7976 59.9708 21.9124 60.7265 21.5171 61.2636L18.5308 65.3206C18.2157 65.7486 17.7108 66.0039 17.1794 66.0039Z"
+                                fill="#F6F9F9" />
+                            <path
+                                d="M45.4205 22.5945H30.4963C29.8295 22.5945 29.2891 22.0541 29.2891 21.3873C29.2891 20.7206 29.8295 20.1801 30.4963 20.1801H45.4205C46.0872 20.1801 46.6277 20.7206 46.6277 21.3873C46.6277 22.0541 46.0872 22.5945 45.4205 22.5945Z"
+                                fill="#7E868F" />
+                            <path
+                                d="M37.9583 27.6394H30.4962C29.8295 27.6394 29.2891 27.0989 29.2891 26.4322C29.2891 25.7655 29.8295 25.225 30.4962 25.225H37.9583C38.625 25.225 39.1655 25.7655 39.1655 26.4322C39.1655 27.0989 38.625 27.6394 37.9583 27.6394Z"
+                                fill="#7E868F" />
+                            <path
+                                d="M40.5097 41.9758H30.4962C29.8295 41.9758 29.2891 41.4353 29.2891 40.7686C29.2891 40.1019 29.8295 39.5614 30.4962 39.5614H40.5097C41.1764 39.5614 41.7169 40.1019 41.7169 40.7686C41.7169 41.4353 41.1764 41.9758 40.5097 41.9758Z"
+                                fill="#7E868F" />
+                            <path
+                                d="M37.9583 47.0206H30.4962C29.8295 47.0206 29.2891 46.4802 29.2891 45.8134C29.2891 45.1467 29.8295 44.6063 30.4962 44.6063H37.9583C38.625 44.6063 39.1655 45.1467 39.1655 45.8134C39.1655 46.4802 38.625 47.0206 37.9583 47.0206Z"
+                                fill="#7E868F" />
+                            <path
+                                d="M64.83 31.5184L63.6446 29.9569L59.2095 27.1483L57.5046 26.8797L34.7945 62.7661C34.2465 63.6314 33.8445 64.5809 33.6045 65.5765C36.3676 65.6108 38.8756 67.1989 40.0879 69.6822C40.8854 69.0395 41.5718 68.2701 42.1198 67.4048L64.83 31.5184Z"
+                                fill="#7E868F" />
+                            <path
+                                d="M68.0362 20.4675L66.1198 19.2539C64.6259 18.3078 62.6478 18.7523 61.7022 20.2465L59.9448 23.0236L60.5055 24.1537L65.8383 27.5308L67.2703 27.6623L69.0287 24.8836C69.9737 23.3901 69.5295 21.4131 68.0362 20.4675Z"
+                                fill="#8C9BA6" />
+                            <path d="M57.5068 26.8694L59.9482 23.0134L67.2749 27.6522L64.8335 31.5082L57.5068 26.8694Z"
+                                fill="#C9E2E7" />
+                            <path
+                                d="M40.0877 69.6823L33.6213 74.8932C32.7091 75.6284 31.3838 74.7892 31.6583 73.6503L33.6042 65.5767C36.3674 65.6107 38.8755 67.199 40.0877 69.6823Z"
+                                fill="#7C8B96" />
+                            <path
+                                d="M38.3914 67.4452L62.1975 29.8517L60.1577 28.56L36.3516 66.1534C37.0984 66.4681 37.7875 66.9045 38.3914 67.4452Z"
+                                fill="#525A65" />
+                        </svg>
+                    </div>
+
+                    <div class="my-3 text-base text-center barlow-bold ">No verification request Found</div>
+                    <div class="text-base text-center barlow">No pending request for verification.</div>
+                </div>
+            </div>
+            <!-- <div class="flex justify-center text-base gap-4 mt-12" *ngIf="staffs">
+<div class="">
+<button (click)="prevPage()">Previous</button>
+</div>
+<div class="">
+<button (click)="nextPage()">Next</button>
+</div>
+</div> -->
+        <ng-container *ngIf="items && items.total_page > 1">
+            <div class="pr-3 flex items-center justify-center table-pagination barlow mt-6" style="text-align: right;">
+                <button class="page-btn barlow-bold {{ pagination.selected_page == 1  ? 'disable-page' : 'default-text-color' }}" style="white-space: nowrap;" (click) = "prevPage()" [disabled] = "pagination.selected_page == 1">
+                    Previous 
+                </button> 
+                <button class="page-btn " (click) = "prevPage()" [disabled] = "pagination.selected_page == 1">
+                    <i class="px-2 fa fa-angle-double-left mr-2 angle-icon {{ pagination.selected_page == 1  ? 'disable-svg' : 'btn-svg' }}"></i>
+                </button>
+                <span class="rounded-circle table-pagination page cursor-pointer" *ngIf="items.current_page > 2 && items.current_page != 1 && items.current_page != 2" (click)="setPage(1)">1</span>
+                <span *ngIf="items.current_page > 2 && items.current_page != 1 && items.current_page != 2 && items.total_page > 4">...</span>
+                <span class="rounded-circle table-pagination page cursor-pointer" *ngIf="items.current_page != 1" (click)="setPage(items.previous_page)">{{ items.previous_page }}</span>
+                <span class="rounded-circle table-pagination page cursor-pointer active-page">{{ items.current_page }}</span>
+                <span class="rounded-circle table-pagination page cursor-pointer" *ngIf="items.current_page < items.total_page" (click)="setPage(items.next_page)">{{ items.next_page }}</span>
+                <span class="rounded-circle table-pagination page cursor-pointer" *ngIf="items.next_page+1 <= items.total_page && items.previous_page < items.next_page" (click)="setPage(items.next_page)">{{ items.next_page +1 }}</span>
+                <span *ngIf="items.total_page > 4 && items.current_page + 1 < items.total_page">...</span>
+                <span class="rounded-circle table-pagination page cursor-pointer" *ngIf="items.total_page > 4 && items.current_page + 1 < items.total_page" (click)="setPage(items.total_page)">{{ items.total_page }}</span>
+
+                <button class="page-btn " style="white-space: nowrap;" (click)="nextPage()" [disabled] = "pagination.selected_page == items.total_page">
+                    <i class="px-2 fa fa-angle-double-right ml-2 angle-icon {{ pagination.selected_page == items.total_page  ? 'disable-svg' : 'btn-svg' }}"></i>
+                </button>
+                <button class="hover:text-gray-800 page-btn barlow-bold {{ pagination.selected_page == items.total_page  ? 'disable-page' : 'default-text-color' }}" (click)="nextPage()" [disabled]="pagination.selected_page == items.total_page">Next</button>
+            </div>
+        </ng-container>
+        </div>
+    </div>
+</div>

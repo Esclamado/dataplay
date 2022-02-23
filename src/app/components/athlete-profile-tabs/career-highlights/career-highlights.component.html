@@ -1,0 +1,84 @@
+<div class="mx-auto">
+    <div class="flex justify-between items-center mt-5 py-3 px-8 barlow text-base">
+        <div class="">
+            <p class="fs-23-px barlow-condensed-bold whitespace-no-wrap">Career Highlights</p>
+        </div>
+        <div class="">
+            <div #t2="matMenuTrigger" #select2 [matMenuTriggerFor]="sport_select"
+                class="border border-gray-400 rounded-md py-3 pl-0 pr-3 minw-250-px flex justify-between items-center h-55-px">
+                <span class="barlow text-black text-base font-lg p-5" *ngIf="!type_values">Sports: <strong>All</strong></span>
+                <span class="barlow text-black text-base font-lg p-5" *ngIf="type_values">Sports: <strong>{{ type_values }}</strong></span>
+                <i class="fas fa-caret-down"></i>
+            </div>
+            <mat-menu class="w-full sports-menu" #sport_select="matMenu">
+                <button mat-menu-item class="tracking-wide focus:outline-none barlow hover:text-teal-800 hover:bg-teal-300 w-235-px" (click)="clickedSports(null)">
+                    <strong>All</strong> 
+                </button>
+                <div class="w-full barlow relative flex items-center justify-end text-base" *ngFor="let sport of mainSports">
+                    <button mat-menu-item class="tracking-wide focus:outline-none barlow hover:text-teal-800 hover:bg-teal-300 w-235-px" (click)="clickedSports(sport.sport_name, sport.id)">
+                        <strong>{{ sport.sport_name | titlecase }}</strong> 
+                    </button>
+                </div>
+            </mat-menu>
+            <!-- <span class="text-base text-gray-500 p-3">Sports:</span>
+            <mat-select class="text-base flex w-130-px pr-4 py-4" placeholder="All">
+                <mat-option (click)="clickedSports('0')" [value]="0">All</mat-option>
+                <mat-option *ngFor="let sport of mainSports" [value]="sport.id" (click)="clickedSports(sport.id)">{{ sport.sport_name }}</mat-option>
+            </mat-select> -->
+        </div>
+    </div>
+    <div class="p-8 pl-10 barlow text-base" *ngIf="careerHighlights">
+        <ng-container *ngFor="let career of careerHighlights">
+            <div class="flex items-center space-x-10">
+                <div class="">
+                    <!-- <img class="" src="/assets/images/group.png"> -->
+                    <img *ngIf="career.rank_type == 1" src="assets/images/trophy/Gold.png" class="ml-6" alt="">
+                    <img *ngIf="career.rank_type == 2" src="assets/images/trophy/Silver.png" class="ml-6" alt="">
+                    <img *ngIf="career.rank_type == 3" src="assets/images/trophy/Bronze.png" class="ml-6" alt="">
+                    <img *ngIf="career.rank_type == 0" src="assets/images/trophy/Orangeribbon.png" class="ml-6" alt="">
+                </div>
+                <div class="w-full">
+                    <div class="grid grid-cols-4 gap-10">
+                        <div class="col-span-1">
+                            <p class="fs-14-px font-bold">Competition</p>
+                            <span class="text-gray-700">{{ careerHighlights && career.competition_name ? career.competition_name : 'N/A' }}</span>
+                        </div>
+                        <div class="col-span-2">
+                            <p class="fs-14-px font-bold">Rank</p>
+                            <span class="text-gray-700">{{ careerHighlights && career.rank ? career.rank : 'N/A' }}</span>
+                        </div>
+                        <div class="col-span-1">
+                            <p class="fs-14-px font-bold">Date</p>
+                            <span class="text-gray-700" *ngIf="careerHighlights && career.event_date">{{ career.event_date | transformDate: '': 'MMMM DD, YYYY' }}</span>
+                            <span class="text-gray-700" *ngIf="careerHighlights && !career.event_date">N/A</span>
+                        </div>
+                    </div>
+                    <div class="grid grid-cols-4 gap-10 mt-8">
+                        <div class="col-span-1">
+                            <p class="fs-14-px font-bold">Location</p>
+                            <span class="text-gray-700">{{ careerHighlights && career.location ? career.location : 'N/A' }}</span>
+                        </div>
+                        <div class="col-span-1">
+                            <p class="fs-14-px font-bold">Sport:</p>
+                            <span class="text-gray-700" >{{ careerHighlights && career.sport ? career.sport : 'N/A' }}</span>
+                        </div>
+                        <div class="col-span-1">
+                            <p class="fs-14-px font-bold">Type:</p>
+                            <span class="text-gray-700">{{ careerHighlights && career.competition_type ? career.competition_type : 'N/A' }}</span>
+                        </div>
+                        <div class="col-span-1">
+                            <p class="fs-14-px font-bold">Result:</p>
+                            <span class="text-gray-700">{{ careerHighlights && career.competition_result ? career.competition_result : 'N/A' }}</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <hr *ngIf="careerHighlights && careerHighlights.length > 1" class="mb-6 mt-6">
+        </ng-container>
+    </div>
+    <div class="">
+        <div class="flex justify-center" *ngIf="!careerHighlights">
+            <span class="py-20 text-base">No Results Found.</span>
+        </div>
+    </div>
+</div>

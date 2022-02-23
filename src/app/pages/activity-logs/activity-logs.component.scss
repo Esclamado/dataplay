@@ -1,0 +1,18 @@
+.search-icon{
+    float: right;
+    position: relative;
+    top: 15px;
+    right: 40px;
+}
+
+::ng-deep{
+    /*.mat-calendar-arrow{
+        display: auto !important;
+    }
+    .mat-calendar-period-button {
+        pointer-events: auto !important;
+    }*/
+    .mat-calendar-period-button{
+        outline: none !important;
+    }
+}

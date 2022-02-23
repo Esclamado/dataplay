@@ -1,0 +1,46 @@
+::ng-deep{
+    input::-ms-clear, input::-ms-reveal {
+        display: none;
+    }
+    .mat-checkbox-frame{
+        border:#afb3b8 1px solid !important;
+        background-color: #ECEEF1 !important;   
+        border-radius: 2px;
+    }
+    .mat-checkbox-layout { 
+        background: none !important;
+    }
+    .mat-checkbox-checked.mat-accent .mat-checkbox-background {
+        background-color: #228891;
+    }
+    .mat-checkbox-checked:not(.mat-checkbox-disabled).mat-accent .mat-ripple-element, .mat-checkbox:active:not(.mat-checkbox-disabled).mat-accent .mat-ripple-element {
+        background:#228891;
+    }
+}
+.login-bg{
+    background: url('/assets/images/login_bg.svg');
+    width: 100%;
+    height: 100%;
+    background-repeat: no-repeat;
+    background-size: cover;
+    background-position: center;
+}
+.cartoon-pos{
+    height: 100% !important;
+    width: 100%;
+    // transform: translateY(58px);
+    left: 0px;
+}
+.eye-icon{
+    &:hover{
+        path{
+            fill: teal
+        }
+    }
+}
+.forgot-hover:hover{
+    color:#e02664;
+    path{
+        fill:#e02664;
+    }
+}

@@ -1,0 +1,118 @@
+<p class="bg-red-500 text-purple-800 cursor-pointer  hover:bg-blue-600 hover:text-white col-auto lg:col-span-6">dashboard works!</p>
+
+<form [formGroup]="dateForm">
+    <div class="">
+        <mat-form-field appearance="fill">
+            <mat-label>Enter a date range</mat-label>
+            <mat-date-range-input [rangePicker]="picker">
+            <input matStartDate formControlName="start" placeholder="Start date">
+            <input matEndDate formControlName="end" placeholder="End date">
+            </mat-date-range-input>
+            <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+            <mat-date-range-picker #picker></mat-date-range-picker>
+        </mat-form-field> 
+    </div>
+    <!-- <mat-form-field appearance="fill">
+        <mat-label>Choose a date</mat-label>
+        <input matInput [matDatepicker]="picker" formControlName="date">
+        <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+        <mat-datepicker #picker></mat-datepicker>
+    </mat-form-field> -->
+    <button mat-raised-button (click)="save()">Submit</button>
+</form>
+<div class="">
+    <button class="w-116-px shadow bg-red-700 hover:bg-red-800 text-white focus:shadow-outline focus:outline-none  py-2 px-4 rounded">Primary</button>
+    <button class="w-116-px shadow bg-blue-700 hover:bg-blue-800 text-white focus:shadow-outline focus:outline-none  py-2 px-4 rounded">Secondary</button>
+    <button class="w-116-px shadow bg-green-700 hover:bg-green-800 text-white focus:shadow-outline focus:outline-none  py-2 px-4 rounded">Third</button>
+</div>
+<div class="mt-5">
+    <mat-card>Simple Card</mat-card>
+</div>
+<div class="mt-10">
+    <form action="">
+        <mat-form-field appearance="fill">
+            <mat-select [(value)]="selectedItem" (selectionChange)="ChooseItem($event)">
+                <mat-option>-- None --</mat-option>
+                <mat-option value="option1">Item 1</mat-option>
+                <mat-option value="option2">Item 2</mat-option>
+                <mat-option value="option3">Item 3</mat-option>
+            </mat-select>
+            <mat-label>Pick Anything</mat-label>
+        </mat-form-field>
+        <p>You selected: {{selectedItem}}</p>
+
+    </form>
+</div>
+<div>
+    <mat-tab-group>
+        <mat-tab label="First"> Content 1 </mat-tab>
+        <mat-tab label="Second"> Content 2 </mat-tab>
+        <mat-tab label="Third"> Content 3 </mat-tab>
+      </mat-tab-group>
+      
+</div>
+
+<!-- <div>
+    <mat-form-field appearance="fill">
+        <mat-label>Enter a date range</mat-label>
+        <mat-date-range-input [rangePicker]="picker">
+          <input matStartDate formControlName="start" placeholder="Start date">
+          <input matEndDate formControlName="end" placeholder="End date">
+        </mat-date-range-input>
+        <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+        <mat-date-range-picker #picker></mat-date-range-picker>
+      </mat-form-field>
+</div> -->
+
+<div class="block text-green-500 ">
+    <!-- <button>
+        <span class="material-icons">
+            add_box
+        </span>
+    </button> -->
+    <mat-card class="rounded-lg">
+        <mat-card-title>
+            Sample Title
+        </mat-card-title>
+        <mat-card-subtitle>
+            Sample sub-title
+        </mat-card-subtitle>
+        <mat-card-content>
+            <!-- <button class="bg-green-400" id="basic" type="button" mat-button >
+                <span class="material-icons">
+                    add_box
+                </span>
+            </button> -->
+            <!-- <mat-form-field appearance="fill">
+                <mat-label>Choose a date</mat-label>
+                <input matInput [matDatepicker]="picker">
+                <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+                <mat-datepicker #picker></mat-datepicker>
+            </mat-form-field> -->
+    
+        </mat-card-content>
+        <mat-card-actions>
+            <button class="bg-green-400" id="basic" type="button" mat-button>
+                <span class="material-icons">
+                    add_box
+                </span>
+            </button>
+            <button class="bg-green-400" id="basic" type="button" mat-button>
+                <span class="material-icons">
+                    add_box
+                </span>
+            </button>
+        </mat-card-actions>
+        <mat-card-footer>
+            Design by: LNS 2020
+        </mat-card-footer>
+    </mat-card>
+</div>
+<!-- <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-6">
+    <div class="text-gray-700 text-center bg-gray-400 px-4 py-2 m-2">1</div>
+    <div class="text-gray-700 text-center bg-gray-400 px-4 py-2 m-2">2</div>
+    <div class="text-gray-700 text-center bg-gray-400 px-4 py-2 m-2">3</div>
+    <div class="text-gray-700 text-center bg-gray-400 px-4 py-2 m-2">4</div>
+    <div class="text-gray-700 text-center bg-gray-400 px-4 py-2 m-2">5</div>
+    <div class="text-gray-700 text-center bg-gray-400 px-4 py-2 m-2">6</div>
+</div> -->

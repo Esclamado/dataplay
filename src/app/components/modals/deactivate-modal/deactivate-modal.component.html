@@ -1,0 +1,31 @@
+<ngx-smart-modal 
+#deactivateModals
+identifier="deactivateModals" 
+customClass="nsm-centered" 
+(onOpen)="getDeactivateDetails()"
+(onClose)="reset()"
+(onAnyCloseEvent)="reset()">
+<div class="w-480-px h-full">
+    <div class="bg-white rounded-lg barlow text-base">
+        <div class="flex flex-col p-8">
+            <div class="py-3">
+                <span class="fs-20-px barlow-bold">Deactivate Account</span>
+            </div>
+            <div class="">
+                <span class="">Are you sure you want to deactivate this user? They will no longer be able to access the dashboard once activated.</span>
+            </div>
+            <div class="flex justify-end mt-8 space-x-4">
+                <div class="" (click)="close()">
+                    <button class="whitespace-no-wrap custom-btn border-2 border-gray-600 items-center px-8 py-4 font-bold hover:bg-gray-200"><span class="text-gray-600">Cancel</span></button>
+                </div>
+                <div class="" (click)="submit()">
+                    <button class="w-210-px whitespace-no-wrap custom-btn border-2 border-red-700 bg-red-700 hover:bg-red-800 items-center px-8 py-4 font-bold focus:outline-none">
+                        <span class="" *ngIf="!isLoading">Deactivate account</span> 
+                        <mat-spinner *ngIf="isLoading" class="white-loader ml-2" diameter="20" color="accent" mode="indeterminate"></mat-spinner>
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>  
+</div>     
+</ngx-smart-modal>

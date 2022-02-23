@@ -1,0 +1,30 @@
+.search-icon{
+    float: right;
+    position: relative;
+    top: 15px;
+    right: 40px;
+}
+// ::ng-deep{
+//     .mat-select-panel{
+//         position: absolute !important;
+//         top: 52px !important;
+//         left: -57px !important;
+//     }
+// }
+.table-hover{
+    :hover{
+        transform: translate(-1px, -1px);
+    }
+}
+.myPanelClass{
+    margin-top: 30px !important; 
+}
+::ng-deep{
+    .sports-menu{
+        &.mat-menu-panel {
+            max-width: none !important;
+            max-height: 300px !important;
+            padding-right: 0px;
+        }
+    }
+}

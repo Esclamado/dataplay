@@ -1,0 +1,28 @@
+.search-icon{
+    float: right;
+    position: relative;
+    top: 15px;
+    right: 40px;
+}
+::ng-deep{
+    .sports-menu .mat-menu-panel {
+        max-width: none !important;
+        max-height: 300px !important;
+        overflow: hidden !important;
+    }
+    .hide-scrollbar{
+        &::-webkit-scrollbar{
+            width:0px !important;
+        }
+        scrollbar-width: none !important;
+    }
+}
+::ng-deep{
+    .sports-menu{
+        &.mat-menu-panel {
+            max-width: none !important;
+            max-height: 300px !important;
+            padding-right: 0px;
+        }
+    }
+}

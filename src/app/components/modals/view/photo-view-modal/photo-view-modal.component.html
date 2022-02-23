@@ -1,0 +1,45 @@
+<ngx-smart-modal #viewPhotoModal identifier="viewPhotoModal" customClass="nsm-center width" (onOpen)="getPhoto()" (onClose)="reset()" (onAnyCloseEvent)="reset()" [dismissable]="false">
+    <ng-container *ngIf="data">
+        <div class="select-none w-1000-px">
+
+            <div class="flex justify-center full-view relative" *ngIf="photo && !post_data.from">
+                <!-- <img [src]="photo" alt="" class="h-full object-cover object-center rounded-lg"> -->
+                <img [defaultImage]="lazyImage_url" [lazyLoad]="photo" alt="" class="h-full object-cover object-center rounded-lg">
+            </div>
+
+            <div class="flex justify-between items-center pointer-events-none" *ngIf="post_data.from">
+
+                <!-- Previous -->
+                <svg class="{{ selectedIndex == 0 ? 'opacity-0' : '' }} pointer-events-auto cursor-pointer" (click)="selectedIndex = selectedIndex > 0 ? selectedIndex - 1 : 0" width="20" height="34" viewBox="0 0 20 34" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <path  class="svg-path" d="M19.7254 3.45L16.7587 0.5L0.275391 17L16.7754 33.5L19.7254 30.55L6.17539 17L19.7254 3.45Z" fill="white" />
+                </svg>
+
+                <!-- Main Image -->
+
+                <div class="flex justify-center full-view relative" *ngIf="post_data.from">
+                    <!-- <img [src]="post_data.post[selectedIndex].image_path" alt="" class="h-450-px object-fit object-center rounded-lg"> -->
+                    <img [defaultImage]="lazyImage_url" [lazyLoad]="post_data.post[selectedIndex].image_path" alt="" class="h-450-px object-fit object-center rounded-lg">
+                </div>
+        
+                <!-- Next -->
+                <svg  class="{{ selectedIndex == post_data.post.length - 1 ? 'opacity-0' : '' }} pointer-events-auto cursor-pointer"  (click)="selectedIndex = selectedIndex < post_data.post.length ? selectedIndex + 1 : post_data.post.length" width="20" height="34" viewBox="0 0 20 34" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <path class="svg-path" d="M0.275391 30.55L3.22539 33.5L19.7254 17L3.22539 0.5L0.275391 3.45L13.8254 17L0.275391 30.55H0.275391Z"
+                        fill="white" />
+                </svg>
+
+            
+            </div>
+            <div class="flex justify-center space-x-2 mt-2" *ngIf="post_data.from">
+                <div (click)="selectedIndex = i" *ngFor="let item of post_data.post; let i = index" class="pointer-events-auto w-100-px h-100-px border {{ selectedIndex == i ? 'border-teal-500' : 'border-transparent' }} cursor-pointer">
+                    <!-- <img [src]="item.image_path" alt="" class="h-full w-full object-cover object-center"> -->
+                    <img [defaultImage]="lazyImage_url" [lazyLoad]="item.image_path" alt="" class="h-full w-full object-cover object-center">
+                </div>
+            </div>
+            <!-- <div class="flex justify-center gap-2 mt-2">
+                <div (click)="selectedIndex = i" *ngFor="let item of photos; let i = index" class="pointer-events-auto w-100-px h-100-px border {{ selectedIndex == i ? 'border-teal-500' : 'border-transparent' }} cursor-pointer">
+                    <img [defaultImage]="lazyImage_url" [lazyLoad]="item.image_path" alt="" class="h-full w-full object-cover object-center">
+                </div>
+            </div> -->
+        </div>
+    </ng-container>
+</ngx-smart-modal>

@@ -1,0 +1,17 @@
+::ng-deep{
+    .report{
+        .nsm-content{
+           background: transparent !important;
+           box-shadow: none !important;
+        }
+        .nsm-dialog-btn-close{
+            top: 25px !important;
+            right: 72px !important;
+            background: none;
+        }
+
+    }
+}
+.picked{
+    background: #81e6d9;
+}

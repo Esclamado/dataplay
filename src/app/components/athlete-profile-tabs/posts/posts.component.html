@@ -1,0 +1,29 @@
+<div class="w-full h-full minh-300-px maxh-600-px custom-scroll overflow-y-scroll" (scroll)="onScroll($event)">
+    <div *ngIf="posts">
+        <div class=" w-full h-full flex flex-col space-y-4 items-center justify-center mt-10"
+        *ngIf="posts.total_count == 0; else haveposts"
+        >
+       <!--  <svg width="40" height="48" viewBox="0 0 40 48" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <path
+               d="M18.1355 0.767211L0.800611 18.1017C0.305786 18.5965 0.0341784 19.256 0.0341785 19.9593C0.0341785 20.6632 0.306176 21.3224 0.800611 21.8172L2.37484 23.391C2.86889 23.8855 3.52878 24.1579 4.23239 24.1579C4.9356 24.1579 5.61774 23.8855 6.11179 23.391L16.2467 13.2783L16.2467 45.4068C16.2467 46.8554 17.3808 48 18.8297 48L21.0553 48C22.5042 48 23.7526 46.8554 23.7526 45.4068L23.7526 13.1636L33.9441 23.3906C34.439 23.8851 35.0809 24.1575 35.7845 24.1575C36.4873 24.1575 37.1387 23.8851 37.6331 23.3906L39.2023 21.8168C39.6971 21.322 39.9667 20.6629 39.9667 19.9589C39.9667 19.2556 39.6936 18.5961 39.1987 18.1013L21.8642 0.766822C21.3679 0.270823 20.7052 -0.00195021 20.0008 -8.72771e-07C19.2941 -0.00156105 18.6311 0.270824 18.1355 0.767211Z"
+               fill="url(#paint0_linear)" />
+            <defs>
+               <linearGradient id="paint0_linear" x1="39.9136" y1="48" x2="24.2812" y2="-6.85707" gradientUnits="userSpaceOnUse">
+                  <stop stop-color="#EF4136" />
+                  <stop offset="1" stop-color="#FAB423" />
+               </linearGradient>
+            </defs>
+         </svg> -->
+            <p class="barlow">This user haven't posted anything yet.</p>
+        </div>
+        <ng-template #haveposts >
+            <div class=" w-full h-full pb-10">
+                <app-post-card class="p-8 px-10 border-b border-gray-300 block" [post]="post" *ngFor="let post of posts.datas"></app-post-card>
+            </div>
+            <div class="w-full flex justify-center mb-2" *ngIf="isLoading">
+                <mat-spinner class="pink-loader" diameter="30" color="accent" mode="indeterminate"></mat-spinner>
+            </div>
+        </ng-template>
+
+    </div>
+</div>

@@ -1,0 +1,103 @@
+<div class="overflow-x-auto custom-scroll h-full">
+    <div class="mx-auto w-table p-12">
+        <div class="col-span-12 flex pb-4 barlow text-base">
+            <button class="whitespace-no-wrap custom-btn items-center border-2 hover:bg-gray-400 border-gray-700 px-5 py-2 w-100-px mb-5 cursor-pointer" [routerLink]="['/admin/content-management']">
+                <svg width="12" height="12" viewBox="0 0 12 12" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M11.3327 5.33317H3.21935L6.94602 1.6065L5.99935 0.666504L0.666016 5.99984L5.99935 11.3332L6.93935 10.3932L3.21935 6.6665H11.3327V5.33317Z" fill="#525A65"/>
+                </svg>            
+                <span class="pl-2 text-gray-700">Back</span>
+            </button>
+        </div>
+        
+        
+        <ng-container *ngIf="!requestingCMS && cmsData; else showSkeleton1">
+            <div class="col-span-12 py-6 barlow-bold text-xl default-text-color" *ngFor="let cms of cmsData">
+                <span>{{ cms.title }}</span>
+            </div>
+        </ng-container>
+        <ng-template #showSkeleton1>
+            <div class="w-192-px h-25-px my-6">
+                <app-loader [border_radius_class]="'rounded-lg'"></app-loader>
+            </div>
+        </ng-template>
+        
+        <!------------------ EDOTOR ------------------>
+        <div class="grid grid-cols-12 grid-rows-6 barlow text-base minw-600-px h-600-px col-gap-5">
+        
+            <div class="bg-white col-span-8 row-span-5 shadow-bottom h-full w-full border-b border-gray-200 px-8 pt-8 border-top">
+                <span class="barlow-bold my-5">Update Content</span>
+                <div class="pt-3 ">
+                    <ng-container *ngIf="!requestingCMS; else showSkeleton2">
+                        <ckeditor class="pt-5 default-text-color" [editor]="Editor" [(ngModel)]="content"> </ckeditor>
+                    </ng-container> 
+                    <ng-template #showSkeleton2>
+                        <div class="w-full h-380-px">
+                            <app-loader [border_radius_class]="'rounded-lg'"></app-loader>
+                        </div>
+                    </ng-template> 
+                </div>
+            </div>
+        
+            <!------------------ CONTENT DETAILS ------------------>
+            <ng-container *ngIf="!requestingCMS && cmsData; else showSkeleton3">
+                <ng-container *ngFor="let cms of cmsData">
+                    <div class="bg-white col-span-8 row-span-1 row-start-6 grid grid-cols-5 shadow-bottom h-full w-full border-bot p-8">
+                       <div class="col-span-3 flex items-center justify-between pb-3">
+                           <div>
+                                <div class="text-xs text-color pb-1" style="font-weight: 600;">Last Updated</div>
+                                <div class="text-sm">{{ cms.updated_at | transformDate: '': 'MMMM DD,yyyy' }}</div>
+                           </div>
+                           <div [ngClass]="{'pad-1366': cms.updated_by.length < 20 && screenWidth == 1366, 
+                                'pad-1440': cms.updated_by.length < 20 && screenWidth == 1440 || screenWidth == 1600}">
+                                <div class="text-xs text-color pb-1" style="font-weight: 600;">Updated By</div>
+                                <div class="text-sm overflow-ellipsis overflow-hidden ...">{{ cms.updated_by }}</div>
+                            </div>
+                        </div>
+                            
+                        <div class="col-span-2 flex items-center justify-end pb-3">
+                            <span class="text-sm px-5 cursor-pointer focus:outline-none cancel" [routerLink]="['/admin/content-management']">Cancel</span>
+                            <button class="custom-btn btn-main-pink p-3 focus:outline-none w-122-px" (click)="checkContent()">
+                                <span *ngIf="!requesting">Save Changes</span>
+                                <mat-spinner class="white-loader" *ngIf="requesting" diameter="20" color="accent" mode="indeterminate"></mat-spinner>
+                            </button> 
+                        </div>
+                    </div>
+                </ng-container>
+            </ng-container>
+            <ng-template #showSkeleton3>
+                <div class="bg-white col-start-1 col-span-8 row-start-6 px-8 py-8">
+                    <app-loader [border_radius_class]="'rounded-lg'"></app-loader>
+                </div>
+              
+               
+            </ng-template>
+        
+            <!------------------ PREVIEW ------------------>
+            <div class="bg-white col-start-9 col-span-4 row-start-1 row-span-6 rounded-lg shadow-bottom h-full w-full p-8">
+                <div class="pb-5">
+                    <span class="barlow-bold">Preview</span> 
+                </div>
+                <ng-container *ngIf="!requestingCMS && cmsData; else showSkeleton4">
+                    <ng-container *ngFor="let cms of cmsData">
+                        <div class="pb-5">
+                            <span class="barlow-bold text-xl">{{ cms.title }}</span>
+                        </div>
+                        <div class="h-460-px w-full" style="overflow-y: auto;">
+                            <span [innerHtml]="content" class="wrap text-sm"></span> 
+                        </div>
+                    </ng-container>
+                </ng-container>
+                <ng-template #showSkeleton4>
+                    <div class="w-full h-25-px pb-1"> 
+                        <app-loader [border_radius_class]="'rounded-lg'"></app-loader>
+                    </div>
+                    <div class="w-full-px h-460-px"> 
+                        <app-loader [border_radius_class]="'rounded-lg'"></app-loader>
+                    </div>
+                </ng-template>
+            </div>
+                
+        </div>
+    </div>
+</div>
+   

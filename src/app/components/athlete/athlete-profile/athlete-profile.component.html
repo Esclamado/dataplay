@@ -1,0 +1,279 @@
+<div class="overflow-x-auto custom-scroll h-full">
+    <div class="mx-auto w-table p-12">
+        <div class="grid grid-cols-10 barlow">
+            <div class="col-start-1">
+                <button class="whitespace-no-wrap custom-btn items-center border-2 hover:bg-gray-400 border-gray-700 px-5 py-2" (click)="backClicked()">
+                    <i class="fas fa-arrow-left mr-2 mt-1 text-gray-700"></i>
+                    <span class="text-base text-gray-700">Back</span>
+                </button>
+            </div>
+            <div class="col-end-12" *ngIf="userProfile">
+                <button class="whitespace-no-wrap custom-btn btn-main-pink items-center px-6 py-4 focus:outline-none" *ngIf="userDetails && userDetails.status != 2" [routerLink]="[ '/admin/account-management/' + getUserID + '/' + 3 ]">
+                    <span class="text-base font-bold">Account Settings</span>
+                </button>
+            </div>
+        </div>
+        <div *ngIf="userDetails && userDetails.status == 2" class="bg-white rounded-lg mt-6 border border-red-700 p-3 barlow text-base">
+            <div class="flex items-center whitespace-no-wrap">
+                <span class="material-icons text-red-700 mr-2">
+                    error_outline
+                </span>
+                <span class="text-red-700 barlow-bold fs-14-px mr-2">This account has been deactivated <span *ngIf="deactivationStatus && deactivationStatus.deactivated_to">until <span class="underline"> {{ deactivationStatus.deactivated_to | transformDate: '': 'MMMM DD,yyyy' }}</span></span> by</span>
+                <img *ngIf="deactivationStatus && deactivationStatus.admin_profile_pic" class=" focus:outline-none bg-white w-50-px h-50-px rounded-full border-4 border-white mr-2" src="{{ deactivationStatus.admin_profile_pic }}">
+                <img *ngIf="deactivationStatus && !deactivationStatus.admin_profile_pic" class=" focus:outline-none bg-white w-50-px h-50-px rounded-full border-4 border-white mr-2" src="/assets/images/default_avatar.png">
+                <span class="barlow-bold fs-14-px mr-2">{{ deactivationStatus ? deactivationStatus.deactivated_by : 'N/A' }}</span>
+                <span *ngIf="deactivationStatus && deactivationStatus.deactivated_at" class="fs-14-px mr-2">at {{ deactivationStatus.deactivated_at | transformDate: '': transformDate: '': 'MMMM DD, YYYY' }} - {{ deactivationStatus.deactivated_at | transformDate: '': 'hh:mm A' }}</span>
+                <span *ngIf="deactivationStatus && !deactivationStatus.deactivated_at" class="fs-14-px mr-2">at 'N/A'</span>
+                <button class="whitespace-no-wrap custom-btn btn-bg-green items-center px-6 py-4 ml-auto focus:outline-none" (click)="activateAccount()" *ngIf="!isActivating">
+                    <span class="text-base">Activate Account</span>
+                </button>
+                <button class="whitespace-no-wrap custom-btn btn-bg-green items-center px-6 py-4 ml-auto w-166-px" *ngIf="isActivating">
+                    <mat-spinner class="white-loader" diameter="20" color="accent" mode="indeterminate"></mat-spinner>
+                </button>
+            </div>
+        </div>
+        
+        <div class="w-full grid grid-cols-12 gap-8 text-base barlow">
+            <div class="col-span-4 mt-6">
+                <div class="bg-white rounded-lg">
+                    <div class="col-span-1 focus:outline-none">
+                        <div class="w-full pb-5 rounded-lg">
+                            <div class="w-full focus:outline-none h-150-px profile-cover bg-black rounded-t-lg" [ngStyle]="{'background-image': userProfile && userProfile.profile_cover_photo_path ? 'url(' +  userProfile.profile_cover_photo_path + ')' : bg_default_url }" >
+                                <div class="flex justify-center">
+                                    <img *ngIf="userProfile && userProfile.profile_pic_path" class=" focus:outline-none bg-white profile-avatar w-100-px h-100-px rounded-full border-4 border-white" src="{{ userProfile.profile_pic_path }}">
+                                    <img *ngIf="userProfile && !userProfile.profile_pic_path" class=" focus:outline-none bg-white profile-avatar w-100-px h-100-px rounded-full border-4 border-white" src="/assets/images/default_avatar.png" >
+                                </div>
+                            </div>
+                            <div class="flex items-center justify-center space-x-2 mt-10">
+                                <span class="barlow-bold text-lg font-lg font-bold capitalize" *ngIf="!isLoading">
+                                    {{ userProfile && userProfile.first_name ? userProfile.first_name : 'N/A' }} {{ userProfile && userProfile.last_name ? userProfile.last_name : 'N/A' }}
+                                </span>
+                                <div class="w-5/6 h-20-px" *ngIf="isLoading">
+                                    <app-loader [border_radius_class]="'rounded-lg'"></app-loader>
+                                </div>
+                                <img class="" *ngIf="userProfile && userProfile.verification_status == 1" src="/assets/images/icon/check_badge.png">
+                            </div>
+                            <div class="flex items-center justify-center space-x-2 mt-2">
+                                <span class="text-gray-700" *ngIf="!isLoading">{{ mainSport && mainSport.main_sport ? mainSport.main_sport : 'N/A' }}</span>
+                                <div class="w-1/2 h-20-px" *ngIf="isLoading">
+                                    <app-loader [border_radius_class]="'rounded-lg'"></app-loader>
+                                </div>
+                            </div>
+                            <div class="flex items-center justify-center space-x-2 mt-2">
+                                <span class="text-gray-700" *ngIf="userProfile && userProfile.city && !isLoading">{{ userProfile.city | titlecase }}, {{ userProfile.province | titlecase }}</span>
+                                <span class="text-gray-700" *ngIf="userProfile && !userProfile.city && !isLoading">N/A</span>
+                                <div class="w-5/6 h-20-px" *ngIf="isLoading">
+                                    <app-loader [border_radius_class]="'rounded-lg'"></app-loader>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="flex items-center barlow space-x-3 py-4 rounded-b-lg" style="background-color: #dee0e3;">
+                        <div class="ml-6">
+                            <img class="" src="/assets/images/icon/visibility_24px.png">
+                        </div>
+                        <div class="ml-4">
+                            <span class="text-gray-700 font-bold" *ngIf="userDetails && userDetails.number_of_views">{{ userDetails.number_of_views | number }}</span>
+                            <span class="text-gray-700 font-bold" *ngIf="userDetails && !userDetails.number_of_views">0</span>
+                        </div>
+                        <div class="ml-4">
+                            <span class="text-gray-600" *ngIf="userDetails && userDetails.number_of_views > 1">total views</span>
+                            <span class="text-gray-600" *ngIf="userDetails && userDetails.number_of_views < 2">total view</span>
+                        </div>
+                    </div>
+                </div>
+                <ng-container *ngIf="userDetails && userDetails.application_form_status != 0">
+                    <div class="bg-white rounded-lg mt-8">
+                        <div class="">
+                            <div class="p-6">
+                                <span class="barlow-bold">Support Details</span>
+                            </div>
+                            <hr class="">
+                            <ng-container *ngIf="donationDetails">
+                                <div class="maxh-200-px custom-scroll overflow-y-auto">
+                                    <div class="flex-col p-6" *ngFor="let account of donationDetails">
+                                        <div class="mb-3">
+                                            <span class="barlow-bold">{{ account.payment_method }}</span>
+                                        </div>
+                                        <div class="mb-3">
+                                            <span class="default-text-color">{{ account.account_name }}</span>
+                                        </div>
+                                        <div class="">
+                                            <span class="default-text-color">{{ account.account_number }}</span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </ng-container>
+                            <ng-container *ngIf="!donationDetails">
+                                <div class="flex justify-center">
+                                    <td class="py-12 text-base">No Account Information yet.</td>
+                                </div>
+                            </ng-container>
+                        </div>
+                    </div>
+                </ng-container>
+            </div>
+            <div class="col-span-8 mt-6">
+                <ng-container *ngIf="userDetails && userDetails.application_form_status == 0">
+                    <div class="mb-10 ">
+                            <app-verification-details></app-verification-details>
+                    </div>
+                </ng-container>
+                <div class="bg-white rounded-lg p-10">
+                    <div class="grid grid-cols-4">
+                        <div class="col-span-1">
+                            <p class="fs-14-px font-bold text-gray-600">First Name</p>
+                            <span class="text-gray-800 capitalize" *ngIf="!isLoading">{{ userProfile && userProfile.first_name ? userProfile.first_name : 'N/A' }}</span>
+                            <div class="w-full h-20-px pr-10" *ngIf="isLoading">
+                                <app-loader [border_radius_class]="'rounded-lg'"></app-loader>
+                            </div>
+                        </div>
+                        <div class="col-span-1">
+                            <p class="fs-14-px font-bold text-gray-600">Last Name</p>
+                            <span class="text-gray-800 capitalize" *ngIf="!isLoading">{{ userProfile && userProfile.last_name ? userProfile.last_name : 'N/A' }}</span>
+                            <div class="w-full h-20-px pr-10" *ngIf="isLoading">
+                                <app-loader [border_radius_class]="'rounded-lg'"></app-loader>
+                            </div>
+                        </div>
+                        <div class="col-span-2">
+                            <div class="flex items-center mt-3 justify-end mr-5" *ngIf="userDetails">
+                                <ng-container *ngFor="let social of userDetails.social_media; let i = index">
+                                    
+                                    <a target="_blank" #tooltip="matTooltip" [matTooltip]="social.socialmedia_link" matTooltipPosition="above"
+                                        matTooltipHideDelay="0" *ngIf="social.socialmedia_id != 6 ; else emailshow"
+                                        href="{{ social.socialmedia_link }}">
+                                        <i class="{{ social.socialmedia_icon }} pr-5 fa-lg" (mouseenter)="social.socialmedia_link"></i>
+                                    </a>{{ social.email }}
+                                    <ng-template #emailshow>
+                                        <a  #tooltip="matTooltip" [matTooltip]="userDetails.email" matTooltipPosition="above" matTooltipHideDelay="0"
+                                            *ngIf="social.socialmedia_link == 'show'" href="{{ 'mailto:' + userDetails.email }}">
+                                            <!-- {{ athlete.email }} -->
+                                            <i class="fas fa-envelope pr-5 fa-lg"></i>
+                                        </a>
+                                    </ng-template>
+                                </ng-container>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="mt-8">
+                        <p class="fs-14-px font-bold text-gray-600">About</p>
+                        <span class="text-gray-800" *ngIf="!isLoading">{{ userProfile && userProfile.bio ? userProfile.bio : 'N/A' }}</span>
+                        <ng-container *ngFor="let item of [1,2]">
+                            <div class="w-full h-20-px pr-10 mt-1" *ngIf="isLoading">
+                                <app-loader [border_radius_class]="'rounded-lg'"></app-loader>
+                            </div>
+                        </ng-container>
+                    </div>
+                    <div class="grid grid-cols-4 mt-8">
+                        <div class="col-span-1">
+                            <p class="fs-14-px font-bold text-gray-600">Birthday</p>
+                            <span class="text-gray-800" *ngIf="!isLoading">{{ userProfile && userProfile.birthdate ? userProfile.birthdate : 'N/A' }}</span>
+                            <div class="w-full h-20-px pr-10" *ngIf="isLoading">
+                                <app-loader [border_radius_class]="'rounded-lg'"></app-loader>
+                            </div>
+                        </div>
+                        <div class="col-span-1">
+                            <p class="fs-14-px font-bold text-gray-600">Age</p>
+                            <span class="text-gray-800" *ngIf="userProfile && userProfile && !isLoading">{{ userProfile.birthdate | age }}</span>
+                            <div class="w-full h-20-px pr-10" *ngIf="isLoading">
+                                <app-loader [border_radius_class]="'rounded-lg'"></app-loader>
+                            </div>
+                        </div>
+                        <div class="col-span-1">
+                            <p class="fs-14-px font-bold text-gray-600">Email</p>
+                            <span class="text-gray-800" *ngIf="!isLoading">{{ userDetails && userDetails.email ? userDetails.email : 'N/A' }}</span>
+                            <div class="w-full h-20-px pr-10" *ngIf="isLoading">
+                                <app-loader [border_radius_class]="'rounded-lg'"></app-loader>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="grid grid-cols-4 mt-8">
+                        <div class="col-span-2">
+                            <p class="fs-14-px font-bold text-gray-600">Hometown</p>
+                            <span class="text-gray-800" *ngIf="userProfile && userProfile.province && !isLoading">{{ userProfile.city | titlecase }}, {{ userProfile.province | titlecase }}</span>
+                            <span class="text-gray-800" *ngIf="userProfile && !userProfile.province && !isLoading">N/A</span>
+                            <div class="w-full h-20-px pr-10" *ngIf="isLoading">
+                                <app-loader [border_radius_class]="'rounded-lg'"></app-loader>
+                            </div>
+                        </div>
+                        <div class="col-span-1">
+                            <p class="fs-14-px font-bold text-gray-600">Height</p>
+                            <span class="text-gray-800" *ngIf="!isLoading">{{ userProfile && userProfile.height ? userProfile.height : 'N/A' }}</span>
+                            <div class="w-full h-20-px pr-10" *ngIf="isLoading">
+                                <app-loader [border_radius_class]="'rounded-lg'"></app-loader>
+                            </div>
+                        </div>
+                        <div class="col-span-1">
+                            <p class="fs-14-px font-bold text-gray-600">Weight</p>
+                            <span class="text-gray-800" *ngIf="!isLoading">{{ userProfile && userProfile.weight ? userProfile.weight : 'N/A' }} lbs</span>
+                            <div class="w-full h-20-px pr-10" *ngIf="isLoading">
+                                <app-loader [border_radius_class]="'rounded-lg'"></app-loader>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="bg-white rounded-lg mt-8 p-8 text-base barlow">   
+            <div class="grid grid-cols-3">
+                <div class="col-span-1">
+                    <p class="fs-14-px font-bold text-gray-600">Main Sport</p>
+                    <span class="default-text-color" *ngIf="!isLoading">{{ mainSport && mainSport.main_sport ? mainSport.main_sport : 'N/A' }}</span>
+                    <div class="w-full h-20-px pr-10" *ngIf="isLoading">
+                        <app-loader [border_radius_class]="'rounded-lg'"></app-loader>
+                    </div>
+                </div>
+                <div class="col-span-1">
+                    <p class="fs-14-px font-bold text-gray-600">Coach</p>
+                    <span class="default-text-color " *ngIf="!isLoading">{{ mainSport && mainSport.coach ? mainSport.coach : 'N/A' }}</span>
+                    <div class="w-full h-20-px pr-10" *ngIf="isLoading">
+                        <app-loader [border_radius_class]="'rounded-lg'"></app-loader>
+                    </div>
+                </div>
+                <div class="col-span-1">
+                    <p class="fs-14-px font-bold text-gray-600">Club</p>
+                    <span class="default-text-color" *ngIf="!isLoading">{{ mainSport && mainSport.club ? mainSport.club : 'N/A' }}</span>
+                    <div class="w-full h-20-px pr-10" *ngIf="isLoading">
+                        <app-loader [border_radius_class]="'rounded-lg'"></app-loader>
+                    </div>
+                </div>
+            </div>
+            <hr class="mt-6 mb-6" *ngIf="subSports">
+            <div class="grid grid-cols-3" *ngIf="subSports">
+                <ng-container *ngFor="let sport of subSports">
+                    <div class="col-span-1">
+                        <p class="fs-14-px font-bold text-gray-600">Sports</p>
+                        <span class="default-text-color">{{ sport.main_sport ? sport.main_sport : 'N/A' }}</span>
+                    </div>
+                    <div class="col-span-1">
+                        <p class="fs-14-px font-bold text-gray-600">Coach</p>
+                        <span class="default-text-color">{{ subSports && sport.coach ? sport.coach : 'N/A' }}</span>
+                    </div>
+                    <div class="col-span-1">
+                        <p class="fs-14-px font-bold text-gray-600">Club</p>
+                        <span class="default-text-color">{{ subSports && sport.club ? sport.club : 'N/A' }}</span>
+                    </div>
+                </ng-container>
+            </div>
+        </div>
+        <div class="text-base barlow mb-10 minh-500-px">
+            <div class="inline-flex space-x-16 items-center mt-8 px-6 bg-white rounded-tl-lg rounded-tr-lg">
+                <div class="inline-block cursor-pointer" (click)="mainTab.selectedIndex = i" *ngFor="let tab of tabs; let i = index">
+                    <div class="py-3 {{ mainTab.selectedIndex == i ? 'barlow-bold' : 'text-gray-600 hover:text-teal-800'}}"><span *ngIf="i == 3">{{ following }} </span> <span *ngIf="i == 4">{{ follower }} </span>{{ tab }}</div>
+
+                    <!--  {{ selectedIndex == i ? 'visible' : 'invisible' }} -->
+                    <div class="line-below w-full h-4-px rounded-l-full rounded-r-full  {{ mainTab.selectedIndex == i ? 'visible' : 'invisible' }}">
+                    </div>
+                </div>
+            </div>
+            <mat-tab-group #mainTab class="bg-white rounded-lg rounded-tl-none header-less-tabs" disableRipple>
+                <mat-tab label="Posts" class="min-w-0 p-0"><hr><app-posts [userId]="getUserID"></app-posts></mat-tab>
+                <mat-tab label="Career Highlights"><hr><app-career-highlights [getUserID]="getUserID"></app-career-highlights> </mat-tab>
+                <mat-tab label="Photos"><hr><app-photos [profileId]="getUserID"></app-photos> </mat-tab>
+                <mat-tab label="{{ following }} Following"><hr><app-following [getUserID]="getUserID"></app-following> </mat-tab>
+                <mat-tab label="{{ follower }} Followers"><hr><app-followers [getUserID]="getUserID"></app-followers> </mat-tab>
+                <mat-tab label="Monthly Analytics"><hr><app-monthly-analytics [getUserID]="getUserID"></app-monthly-analytics> </mat-tab>
+              </mat-tab-group>
+        </div>
+    </div>
+</div>

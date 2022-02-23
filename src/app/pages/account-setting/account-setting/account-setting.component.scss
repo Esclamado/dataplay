@@ -1,0 +1,90 @@
+.upload-btn{
+    border: none;
+    border-radius: 5px;
+    background-color: #FCD9E8;
+    width: 156px;
+    height: 42px;
+}
+
+.text-color{
+    background: linear-gradient(73.19deg, #BE1E2D 0.03%, #EE2A7B 95.88%);
+    -webkit-background-clip: text;
+    background-clip: text;
+    -webkit-text-fill-color: transparent;
+    font-weight: 700;
+}
+
+.pass-btn{
+    border: 2px solid #ce2247;
+    border-radius: 4px;
+    &:hover{
+        border: 2px solid #FCD9E8;
+        background-color: #FCD9E8;
+    }
+}
+
+.changePhoto-btn{
+    &:hover{
+        border: 2px solid #ce2247;
+        border-radius: 5px;
+        background-color: transparent;
+    }
+}
+
+.label-color{
+    color: #7E868F !important;
+}
+
+input[type="text"]:disabled {
+    background: #dddddd;
+}
+
+.numb{
+    color: gray;
+    border-top-left-radius: 2px;
+    border-bottom-left-radius: 2px;
+    background-color: #ddd;
+    position: absolute;
+    width: 55px;
+    height: 44px;
+    margin-left: 2px;
+    transform: translateY(2px);
+    border-top-right-radius: 1px !important;
+    border-bottom-right-radius: 1px !important;
+}
+.numb-contain{
+    transform: translateY(0px) !important;
+}
+
+.border-top{
+    border-top-left-radius: 10px !important;
+    border-top-right-radius: 10px !important;
+}
+
+.border-bot{
+    border-bottom-left-radius: 10px !important;
+    border-bottom-right-radius: 10px !important;
+}
+
+span {
+    white-space:pre;
+}
+
+.trim-info {
+    max-width: 413px;
+    display: inline-block;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;  
+    position: relative;
+}
+
+.icon-hover{
+    &:hover{
+        i, svg path, span{
+            fill:teal!important;
+            color:teal!important;
+        }
+        color:teal!important;
+    }
+}

@@ -1,0 +1,250 @@
+<div class="overflow-x-auto custom-scroll h-full">
+    <div class="mx-auto w-table p-12">
+        <div class="grid grid-cols-10 barlow">
+            <div class="col-start-1">
+                <button class="whitespace-no-wrap custom-btn items-center border-2 hover:bg-gray-400 border-gray-700 px-5 py-2" (click)="backClicked()">
+                    <i class="fas fa-arrow-left mr-2 mt-1 text-gray-700"></i>
+                    <span class="text-base text-gray-700">Back</span>
+                </button>
+            </div>
+            <div class="col-end-12">
+                <button *ngIf="userDetails && userDetails.status != 2" class="focus:outline-none whitespace-no-wrap custom-btn btn-main-pink items-center px-6 py-4" [routerLink]="[ '/admin/account-management/' + getUserID + '/' + 4 ]">
+                    <span class="text-base">Account Settings</span>
+                </button>
+            </div>
+        </div>
+        <div *ngIf="userDetails && userDetails.status == 2" class="bg-white rounded-lg mt-6 border border-red-700 p-3 barlow text-base">
+            <div class="flex items-center whitespace-no-wrap">
+                <span class="material-icons text-red-700 mr-2">
+                    error_outline
+                </span>
+                <span class="text-red-700 barlow-bold fs-14-px">This account has been deactivated <span *ngIf="deactivationStatus && deactivationStatus.deactivated_to">until <span class="underline">{{ deactivationStatus.deactivated_to | transformDate: '': 'MMMM DD, yyyy' }}</span> </span> by</span>
+                <img *ngIf="deactivationStatus && deactivationStatus.admin_profile_pic" class=" focus:outline-none bg-white w-50-px h-50-px rounded-full border-4 border-white mx-2" src="{{ deactivationStatus.admin_profile_pic }}">
+                <img *ngIf="deactivationStatus && !deactivationStatus.admin_profile_pic" class=" focus:outline-none bg-white w-50-px h-50-px rounded-full border-4 border-white mx-2" src="/assets/images/default_avatar.png">
+                <span class="barlow-bold fs-14-px">{{ deactivationStatus ? deactivationStatus.deactivated_by : 'N/A' }}</span>
+                <span *ngIf="deactivationStatus && deactivationStatus.deactivated_at" class="fs-14-px">&nbsp;at {{ deactivationStatus.deactivated_at | transformDate: '': 'MMM DD yyyy' }} - {{ deactivationStatus.deactivated_at | transformDate: '': 'hh:mm A' }}</span>
+                <span *ngIf="deactivationStatus && !deactivationStatus.deactivated_at" class="fs-14-px">at 'N/A'</span>
+                <button class="whitespace-no-wrap custom-btn btn-bg-green items-center px-6 py-4 ml-auto focus:outline-none" (click)="activateAccount()" *ngIf="!isActivating">
+                    <span class="text-base">Activate Account</span>
+                </button>
+                <button class="whitespace-no-wrap custom-btn btn-bg-green items-center px-6 py-4 ml-auto w-166-px" *ngIf="isActivating">
+                    <mat-spinner class="white-loader" diameter="20" color="accent" mode="indeterminate"></mat-spinner>
+                </button>
+            </div>
+        </div>
+        <div class="w-full grid grid-cols-12 gap-6 text-base barlow">
+            <div class="bg-white rounded-lg mt-6 col-span-4">
+                <ng-container *ngIf="userDetails; else showSkeleton1">
+                    <div class="col-span-1 focus:outline-none">
+                        <div class="w-full pb-2 rounded-lg">
+                            <div class="w-full focus:outline-none h-150-px profile-cover bg-black rounded-t-lg" [ngStyle]="{'background-image': userDetails.profile_cover_photo_path ? 'url(' +  userDetails.profile_cover_photo_path + ')' : bg_default_url }" >
+                                <div class="flex justify-center">
+                                    <img *ngIf="userDetails.profile_pic_path" class=" focus:outline-none bg-white profile-avatar w-100-px h-100-px rounded-full border-4 border-white" src="{{ userDetails.profile_pic_path }}">
+                                    <img *ngIf="!userDetails.profile_pic_path" class=" focus:outline-none bg-white profile-avatar w-100-px h-100-px rounded-full border-4 border-white" src="/assets/images/default_avatar.png" >
+                                </div>
+                            </div>
+                            <div class="flex items-center justify-center space-x-2 mt-10 focus:outline-none">
+                                <span class="barlow text-lg font-lg font-bold">
+                                    {{ userDetails.first_name }} {{ userDetails.last_name }}
+                                </span>
+                            </div>
+                            <div class="flex items-center justify-center space-x-2 mt-2 mb-8 focus:outline-none">
+                                <span class="text-gray-700" *ngIf="userDetails.user_role_id == 2">Admin</span>
+                                <span class="text-gray-700" *ngIf="userDetails.user_role_id == 3">Athlete</span>
+                                <span class="text-gray-700" *ngIf="userDetails.user_role_id == 4">Sports Fan</span>
+                            </div>
+                        </div>
+                    </div>
+                </ng-container>
+                <ng-template #showSkeleton1>
+                    <div class="w-full h-278-px "> 
+                        <app-loader [border_radius_class]="'rounded-lg'"></app-loader>
+                    </div>
+                </ng-template>
+            </div>
+            <ng-container *ngIf="userDetails; else showSkeleton2">
+                <div class="bg-white rounded-lg p-10 mt-6 col-span-8">
+                    <div class="flex space-x-24">
+                        <div class="">
+                            <p class="whitespace-no-wrap fs-14-px font-bold text-gray-600">First Name</p>
+                            <span class="text-gray-800">{{ userDetails && userDetails.first_name ? userDetails.first_name : 'N/A' }}</span>
+                        </div>
+                        <div class="">
+                            <p class="whitespace-no-wrap fs-14-px font-bold text-gray-600">Last Name</p>
+                            <span class="text-gray-800">{{ userDetails && userDetails.last_name ? userDetails.last_name : 'N/A' }}</span>
+                        </div>
+                        <div class="">
+                            <p class="fs-14-px font-bold text-gray-600">Email</p>
+                            <span class="text-gray-800">{{ userDetails && userDetails.email ? userDetails.email : 'N/A' }}</span>
+                        </div>
+                    </div>
+                    <div class="mt-6">
+                        <p class="fs-14-px font-bold text-gray-600">About</p>
+                        <span class="text-gray-800">{{ userDetails && userDetails.bio ? userDetails.bio : 'N/A' }}</span>
+                    </div>
+                </div>
+            </ng-container>
+            <ng-template #showSkeleton2>
+                <div class="w-full h-278-px mt-6 col-span-8"> 
+                    <app-loader [border_radius_class]="'rounded-lg'"></app-loader>
+                </div>
+            </ng-template>
+        </div>
+        <div class="mt-20">
+            <span class="fs-20-px barlow barlow-bold">Following {{ items && items.total_count ? items.total_count : '0' }} Athletes</span>
+        </div>
+        <div class="bg-white rounded-lg p-8 mt-12 col-span-4 barlow text-base">
+            <div class="flex justify-between">
+                <div class="">
+                    <input type="text" class="search-input text-base w-auto rounded-md tracking-wide px-3 py-4 border border-gray-400 placeholder-gray-700 focus:outline-none pr-12" [(ngModel)]="search" (keyup)="searchKeyword($event)" placeholder="Search">
+                    <img class="search-icon" src="/assets/images/icon/search_24px.png">
+                </div>
+                <div class="flex items-center space-x-4">
+                    <div class="">
+                        <span class="text-base text-gray-700">Filter by:</span>
+                    </div>
+                    <div class="">
+                        <div #t2="matMenuTrigger" #select2 [matMenuTriggerFor]="sport_select"
+                            class="border border-gray-400 rounded-md py-3 pl-0 pr-3 minw-250-px flex justify-between items-center h-55-px">
+                            <span class="barlow text-black text-base font-lg p-5" *ngIf="!type_values">Sports: <strong>All</strong></span>
+                            <span class="barlow text-black text-base font-lg p-5" *ngIf="type_values">Sports: <strong>{{ type_values }}</strong></span>
+                            <i class="fas fa-caret-down"></i>
+                        </div>
+                        <mat-menu class="w-full sports-menu" #sport_select="matMenu">
+                            <button mat-menu-item class="tracking-wide focus:outline-none barlow hover:text-teal-800 hover:bg-teal-300 w-235-px" (click)="clickedSports(null)">
+                                <strong>All</strong> 
+                            </button>
+                            <div class="w-full barlow relative flex items-center justify-end text-base" *ngFor="let sport of mainSports">
+                                <button mat-menu-item class="tracking-wide focus:outline-none barlow hover:text-teal-800 hover:bg-teal-300 w-235-px" (click)="clickedSports(sport.sport_name, sport.id)">
+                                    <strong>{{ sport.sport_name | titlecase }}</strong> 
+                                </button>
+                            </div>
+                        </mat-menu>
+                    </div>
+                    <div class="">
+                        <!-- <span class="text-base text-gray-500 p-3">Location:</span>
+                        <mat-select class="text-base flex w-130-px pr-4 py-4" placeholder="All">
+                            <mat-option (click)="clickedLocation('0')" [value]="0">All</mat-option>
+                            <mat-option *ngFor="let province of province_filtered_list" [value]="province.name" (click)="clickedLocation(province.name)">{{ province.name }}</mat-option>
+                        </mat-select> -->
+                        <div #t2="matMenuTrigger" #select2 [matMenuTriggerFor]="location_select"
+                            class="border border-gray-400 rounded-md py-3 pl-0 pr-3 minw-250-px flex justify-between items-center h-55-px">
+                            <span class="barlow text-black text-base font-lg p-5" *ngIf="!type_name">Location: <strong>All</strong></span>
+                            <span class="barlow text-black text-base font-lg p-5" *ngIf="type_name">Location: <strong>{{ type_name | titlecase }}</strong></span>
+                            <i class="fas fa-caret-down"></i>
+                        </div>
+                        <mat-menu class="w-full sports-menu" #location_select="matMenu">
+                            <button mat-menu-item class="tracking-wide focus:outline-none barlow hover:text-teal-800 hover:bg-teal-300 w-235-px" (click)="clickedLocation(0)">
+                                <strong>All</strong> 
+                            </button>
+                            <div class="w-full barlow relative flex items-center justify-end text-base" *ngFor="let province of province_filtered_list">
+                                <button mat-menu-item class="tracking-wide focus:outline-none barlow hover:text-teal-800 hover:bg-teal-300 w-235-px" (click)="clickedLocation(province.name)">
+                                    <strong>{{ province.name | titlecase }}</strong> 
+                                </button>
+                            </div>
+                        </mat-menu>
+                    </div>
+                </div>
+            </div>
+            <div class="data-table mt-12 barlow text-base">
+                <table class="w-full">
+                    <thead>
+                        <tr>
+                            <ng-container *ngFor="let th of ths; let i = index">
+                                <th class="text-left barlow" [ngClass]="{ 'sort' : th.canSort }" (click)="orderList(th.canSort, th.key, order.order_by == 'desc' ? 'asc' : 'desc')">
+                                    {{ th.label }}
+                                    <ng-container *ngIf="th.canSort">
+                                        <i *ngIf="order.order_by_column == th.key" [ngClass]="{ 'icon-datatables-order-asc' : order.order_by == 'asc', 'icon-datatables-order-desc' : order.order_by == 'desc' }"></i>
+                                        <i [ngClass]="{ 'icon-datatables-order-asc' : order.order_by_column != th.key }"></i>
+                                    </ng-container>
+                                </th>
+                            </ng-container>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <ng-container *ngIf="followings && !isLoading">
+                            <tr class="cursor-pointer focus:outline-none" *ngFor="let following of followings" [routerLink]="[ '/admin/athletes/' + following.user_id ]">
+                                <td class="text-teal-600">{{ following.user_id }}</td>
+                                <td>
+                                    <div class="flex space-x-3 items-center">
+                                        <img class="focus:outline-none w-40-px h-40-px rounded-full" src="{{ following.profile_pic_path }}"> 
+                                        <span>
+                                            {{ following.following_full_name }} 
+                                        </span>
+                                        <img class="" src="/assets/images/icon/check_badge.png">
+                                    </div>
+                                </td>
+                                <td>{{ following.following_main_sport }}</td>
+                                <td>{{ following.following_location | titlecase }}</td>
+                                <td class="whitespace-no-wrap">{{ following.last_login | transformDate: '': 'MM/DD/yyyy, hh:mm A' }}</td>
+                            </tr>
+                        </ng-container>
+                        <ng-container *ngIf="isLoading">
+                            <ng-container *ngFor="let item of [1,2,3,4]">
+                                <tr>
+                                    <td>
+                                        <div class="w-full h-15-px">
+                                            <app-loader [border_radius_class]="'rounded-lg'" [additional_class]=""></app-loader>
+                                        </div>
+                                    </td>
+                                    <td>
+                                        <div class="w-full h-15-px">
+                                            <app-loader [border_radius_class]="'rounded-lg'" [additional_class]=""></app-loader>
+                                        </div>
+                                    </td>
+                                    <td>
+                                        <div class="w-full h-15-px">
+                                            <app-loader [border_radius_class]="'rounded-lg'" [additional_class]=""></app-loader>
+                                        </div>
+                                    </td>
+                                    <td>
+                                        <div class="w-full h-15-px">
+                                            <app-loader [border_radius_class]="'rounded-lg'" [additional_class]=""></app-loader>
+                                        </div>
+                                    </td>
+                                    <td>
+                                        <div class="w-full h-15-px">
+                                            <app-loader [border_radius_class]="'rounded-lg'" [additional_class]=""></app-loader>
+                                        </div>
+                                    </td>
+                                </tr>
+                            </ng-container>
+                        </ng-container>
+                    </tbody>
+                </table>
+            </div>
+            <div class="flex justify-center items-center h-400-px default-text-color" *ngIf="!followings && !isLoading">
+                <div>
+                    <div class="flex justify-center">
+                         <img class="" src="/assets/images/empty_state.png">
+                    </div>
+                    <div class="my-3 text-base text-center barlow-bold">No following yet.</div>
+                    <div class="text-base text-center barlow">This user doesn’t have any following yet.</div>
+                </div> 
+            </div>
+            <ng-container *ngIf="items && items.total_page > 1">
+                <div class="pr-3 flex items-center justify-center table-pagination barlow mt-6" style="text-align: right;">
+                    <button class="page-btn barlow-bold {{ pagination.selected_page == 1  ? 'disable-page' : 'default-text-color' }}" style="white-space: nowrap;" (click) = "prevPage()" [disabled] = "pagination.selected_page == 1">
+                        Previous 
+                    </button> 
+                    <button class="page-btn " (click) = "prevPage()" [disabled] = "pagination.selected_page == 1">
+                        <i class="px-2 fa fa-angle-double-left mr-2 angle-icon {{ pagination.selected_page == 1  ? 'disable-svg' : 'btn-svg' }}"></i>
+                    </button>
+                    <span class="rounded-circle table-pagination page cursor-pointer" *ngIf="items.current_page > 2 && items.current_page != 1 && items.current_page != 2" (click)="setPage(1)">1</span>
+                    <span *ngIf="items.current_page > 2 && items.current_page != 1 && items.current_page != 2 && items.total_page > 4">...</span>
+                    <span class="rounded-circle table-pagination page cursor-pointer" *ngIf="items.current_page != 1" (click)="setPage(items.previous_page)">{{ items.previous_page }}</span>
+                    <span class="rounded-circle table-pagination page cursor-pointer active-page">{{ items.current_page }}</span>
+                    <span class="rounded-circle table-pagination page cursor-pointer" *ngIf="items.current_page < items.total_page" (click)="setPage(items.next_page)">{{ items.next_page }}</span>
+                    <span class="rounded-circle table-pagination page cursor-pointer" *ngIf="items.next_page+1 <= items.total_page && items.previous_page < items.next_page" (click)="setPage(items.next_page)">{{ items.next_page +1 }}</span>
+                    <span *ngIf="items.total_page > 4 && items.current_page + 1 < items.total_page">...</span>
+                    <span class="rounded-circle table-pagination page cursor-pointer" *ngIf="items.total_page > 4 && items.current_page + 1 < items.total_page" (click)="setPage(items.total_page)">{{ items.total_page }}</span>
+
+                    <button class="page-btn " style="white-space: nowrap;" (click)="nextPage()" [disabled] = "pagination.selected_page == items.total_page">
+                        <i class="px-2 fa fa-angle-double-right ml-2 angle-icon {{ pagination.selected_page == items.total_page  ? 'disable-svg' : 'btn-svg' }}"></i>
+                    </button>
+                    <button class="hover:text-gray-800 page-btn barlow-bold {{ pagination.selected_page == items.total_page  ? 'disable-page' : 'default-text-color' }}" (click)="nextPage()" [disabled]="pagination.selected_page == items.total_page">Next</button>
+                </div>
+            </ng-container>
+        </div>
+    </div>
+</div>

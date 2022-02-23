@@ -1,0 +1,14 @@
+::ng-deep{
+    .mat-date-range-input{
+        &.date-line{
+            visibility: hidden;
+            margin-bottom: -20px;
+        }
+    }
+    .mat-select-placeholder{
+        color: black;
+    }
+    .mat-select-arrow{
+        color: black;
+    }
+}

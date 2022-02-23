@@ -1,0 +1,34 @@
+::ng-deep{
+    body.mat-typography{
+        &::-webkit-scrollbar{
+            width: 0px;
+        }
+        scrollbar-width: none;
+    }
+    html{
+        scrollbar-width: none;
+    }
+    .toast-top-center{
+        top:30px !important;
+    }
+    .overlay.nsm-overlay-open {
+        background-color: rgba(0, 0, 0, 0.8);
+    }
+    .confettimodal-class{
+        .overlay.nsm-overlay-open {
+            background-color: rgba(0, 0, 0, 0.95);
+        }
+            
+    }
+    .ngx-toastr{
+        background: transparent !important;
+        pointer-events: none;
+        box-shadow: none !important;
+        padding: 0px !important;
+        &:hover{
+            background: transparent !important;
+            pointer-events: none;
+            box-shadow: none !important;
+        }
+    }
+}
